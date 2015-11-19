@@ -5,6 +5,11 @@ class AIOWPSecurity_General_Init_Tasks
     function __construct(){
         global $aio_wp_security;
         
+        if ($aio_wp_security->configs->get_value('aiowps_enable_rename_login_page') == '1') {
+            add_action( 'widgets_init', array(&$this, 'remove_standard_wp_meta_widget' ));
+            add_filter( 'retrieve_password_message', array(&$this, 'decode_reset_pw_msg'), 10, 4); //Fix for non decoded html entities in password reset link
+        }
+
         add_action('admin_notices', array(&$this,'reapply_htaccess_rules_notice'));
         if(isset($_REQUEST['aiowps_reapply_htaccess'])){
             if(strip_tags($_REQUEST['aiowps_reapply_htaccess']) == 1){
@@ -30,11 +35,13 @@ class AIOWPSecurity_General_Init_Tasks
         }
         
         //For the cookie based brute force prevention feature
-        $bfcf_secret_word = $aio_wp_security->configs->get_value('aiowps_brute_force_secret_word');
-        if(isset($_GET[$bfcf_secret_word])){
-            //If URL contains secret word in query param then set cookie and then redirect to the login page
-            AIOWPSecurity_Utility::set_cookie_value($bfcf_secret_word, "1");
-            AIOWPSecurity_Utility::redirect_to_url(AIOWPSEC_WP_URL."/wp-admin");
+        if($aio_wp_security->configs->get_value('aiowps_enable_brute_force_attack_prevention') == 1){
+            $bfcf_secret_word = $aio_wp_security->configs->get_value('aiowps_brute_force_secret_word');
+            if(isset($_GET[$bfcf_secret_word])){
+                //If URL contains secret word in query param then set cookie and then redirect to the login page
+                AIOWPSecurity_Utility::set_cookie_value($bfcf_secret_word, "1");
+                AIOWPSecurity_Utility::redirect_to_url(AIOWPSEC_WP_URL."/wp-admin");
+            }
         }
         
         //For user unlock request feature
@@ -162,6 +169,11 @@ class AIOWPSecurity_General_Init_Tasks
         
     }
     
+    function remove_standard_wp_meta_widget()
+    {
+        unregister_widget('WP_Widget_Meta');
+    }    
+
     function remove_wp_generator_meta_info()
     {
         return '';
@@ -240,7 +252,7 @@ class AIOWPSecurity_General_Init_Tasks
     function insert_captcha_custom_login($cust_html_code, $args)
     {
         global $aio_wp_security;
-        $cap_form = '<p class="aiowps-captcha"><label>'.__('Please enter an answer in digits:','aiowpsecurity').'</label>';
+        $cap_form = '<p class="aiowps-captcha"><label>'.__('Please enter an answer in digits:','all-in-one-wp-security-and-firewall').'</label>';
         $cap_form .= '<div class="aiowps-captcha-equation"><strong>';
         $maths_question_output = $aio_wp_security->captcha_obj->generate_maths_question();
         $cap_form .= $maths_question_output . '</strong></div></p>';
@@ -267,7 +279,7 @@ class AIOWPSecurity_General_Init_Tasks
             if($submitted_encoded_string !== $_POST['aiowps-captcha-string-info'])
             {
                 //This means a wrong answer was entered
-                $result['errors']->add('generic', __('<strong>ERROR</strong>: Your answer was incorrect - please try again.', 'aiowpsecurity'));                
+                $result['errors']->add('generic', __('<strong>ERROR</strong>: Your answer was incorrect - please try again.', 'all-in-one-wp-security-and-firewall'));
             }
         }
         return $result;
@@ -279,7 +291,7 @@ class AIOWPSecurity_General_Init_Tasks
     }
 
     function insert_honeypot_hidden_field(){
-        $honey_input = '<p style="display: none;"><label>'.__('Enter something special:','aiowpsecurity').'</label>';
+        $honey_input = '<p style="display: none;"><label>'.__('Enter something special:','all-in-one-wp-security-and-firewall').'</label>';
         $honey_input .= '<input name="aio_special_field" type="text" id="aio_special_field" class="aio_special_field" /></p>';
         echo $honey_input;
     }
@@ -306,7 +318,7 @@ class AIOWPSecurity_General_Init_Tasks
         {
             // If answer is empty
             if ($_REQUEST['aiowps-captcha-answer'] == ''){
-                wp_die( __('Please enter an answer in the CAPTCHA field.', 'aiowpsecurity' ) );
+                wp_die( __('Please enter an answer in the CAPTCHA field.', 'all-in-one-wp-security-and-firewall' ) );
             }
             $captcha_answer = trim($_REQUEST['aiowps-captcha-answer']);
             $captcha_secret_string = $aio_wp_security->configs->get_value('aiowps_captcha_secret_key');
@@ -316,7 +328,7 @@ class AIOWPSecurity_General_Init_Tasks
                 return($comment);
             }else{
                 //Wrong answer
-                wp_die( __('Error: You entered an incorrect CAPTCHA answer. Please go back and try again.', 'aiowpsecurity'));
+                wp_die( __('Error: You entered an incorrect CAPTCHA answer. Please go back and try again.', 'all-in-one-wp-security-and-firewall'));
             }
         }
     }
@@ -344,7 +356,7 @@ class AIOWPSecurity_General_Init_Tasks
     function add_lostpassword_captcha_error_msg()
     {
         //Insert an error just before the password reset process kicks in
-        return new WP_Error('aiowps_captcha_error',__('<strong>ERROR</strong>: Your answer was incorrect - please try again.', 'aiowpsecurity'));
+        return new WP_Error('aiowps_captcha_error',__('<strong>ERROR</strong>: Your answer was incorrect - please try again.', 'all-in-one-wp-security-and-firewall'));
     }
     
     function check_404_event()
@@ -368,7 +380,7 @@ class AIOWPSecurity_General_Init_Tasks
             if($submitted_encoded_string !== $_POST['aiowps-captcha-string-info'])
             {
                 //This means a wrong answer was entered
-                $bp->signup->errors['aiowps-captcha-answer'] = __('Your CAPTCHA answer was incorrect - please try again.', 'aiowpsecurity');
+                $bp->signup->errors['aiowps-captcha-answer'] = __('Your CAPTCHA answer was incorrect - please try again.', 'all-in-one-wp-security-and-firewall');
             }
         }
 
@@ -382,5 +394,13 @@ class AIOWPSecurity_General_Init_Tasks
         if (get_option('aiowps_temp_configs') !== FALSE){
             echo '<div class="updated"><p>Would you like All In One WP Security & Firewall to re-insert the security rules in your .htaccess file which were cleared when you deactivated the plugin?&nbsp;&nbsp;<a href="admin.php?page='.AIOWPSEC_MENU_SLUG_PREFIX.'&aiowps_reapply_htaccess=1" class="button-primary">Yes</a>&nbsp;&nbsp;<a href="admin.php?page='.AIOWPSEC_MENU_SLUG_PREFIX.'&aiowps_reapply_htaccess=2" class="button-primary">No</a></p></div>';
         }
+    }
+    
+    //This is a fix for cases when the password reset URL in the email was not decoding all html entities properly
+    function decode_reset_pw_msg($message, $key, $user_login, $user_data)
+    {
+        global $aio_wp_security;
+        $message = html_entity_decode($message);
+        return $message;
     }
 }

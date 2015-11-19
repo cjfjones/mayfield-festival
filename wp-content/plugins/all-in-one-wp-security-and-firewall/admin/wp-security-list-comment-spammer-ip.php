@@ -25,8 +25,12 @@ class AIOWPSecurity_List_Comment_Spammer_IP extends AIOWPSecurity_List_Table {
             //Suppress the block link if site is a multi site AND not the main site
             $actions = array(); //blank array
         }else{
+            $block_url = sprintf('admin.php?page=%s&tab=%s&action=%s&spammer_ip=%s', AIOWPSEC_SPAM_MENU_SLUG, $tab, 'block_spammer_ip', $item['comment_author_IP']);
+            //Add nonce to block URL
+            $block_url_nonce = wp_nonce_url($block_url, "block_spammer_ip", "aiowps_nonce");
+            
             $actions = array(
-                'block' => sprintf('<a href="admin.php?page=%s&tab=%s&action=%s&spammer_ip=%s" onclick="return confirm(\'Are you sure you want to add this IP address to your blacklist?\')">Block</a>',AIOWPSEC_SPAM_MENU_SLUG,$tab,'block_spammer_ip',$item['comment_author_IP']),
+                'block' => '<a href="'.$block_url_nonce.'" onclick="return confirm(\'Are you sure you want to add this IP address to your blacklist?\')">Block</a>',
             );
         }
         
@@ -83,7 +87,7 @@ class AIOWPSecurity_List_Comment_Spammer_IP extends AIOWPSecurity_List_Table {
                 if(!isset($_REQUEST['item']))
                 {
                     $error_msg = '<div id="message" class="error"><p><strong>';
-                    $error_msg .= __('Please select some records using the checkboxes','aiowpsecurity');
+                    $error_msg .= __('Please select some records using the checkboxes','all-in-one-wp-security-and-firewall');
                     $error_msg .= '</strong></p></div>';
                     _e($error_msg);
                 } else {
@@ -105,26 +109,36 @@ class AIOWPSecurity_List_Comment_Spammer_IP extends AIOWPSecurity_List_Table {
         $currently_banned_ips = explode(PHP_EOL, $aio_wp_security->configs->get_value('aiowps_banned_ip_addresses'));
         if (is_array($entries))
         {
-            //Bulk selection using checkboxes were used
-            foreach ($entries as $ip_add)
+            if (isset($_REQUEST['_wp_http_referer']))
             {
-                if (!empty($currently_banned_ips) && !(sizeof($currently_banned_ips) == 1 && trim($currently_banned_ips[0]) == ''))
+                //Bulk selection using checkboxes were used
+                foreach ($entries as $ip_add)
                 {
-                    //Check if the IP address is already in the blacklist. If not add it to the list.
-                    if (!in_array($ip_add, $currently_banned_ips))
+                    if (!empty($currently_banned_ips) && !(sizeof($currently_banned_ips) == 1 && trim($currently_banned_ips[0]) == ''))
                     {
+                        //Check if the IP address is already in the blacklist. If not add it to the list.
+                        if (!in_array($ip_add, $currently_banned_ips))
+                        {
+                            $raw_banned_ip_list .= PHP_EOL.$ip_add;
+                        }
+                    }
+                    else
+                    {
+                        //if blacklist is currently empty just add all IP addresses to the list regardless 
                         $raw_banned_ip_list .= PHP_EOL.$ip_add;
                     }
-                }
-                else
-                {
-                    //if blacklist is currently empty just add all IP addresses to the list regardless 
-                    $raw_banned_ip_list .= PHP_EOL.$ip_add;
                 }
             }
         } 
         else if ($entries != NULL)
         {
+            $nonce=isset($_GET['aiowps_nonce'])?$_GET['aiowps_nonce']:'';
+            if (!isset($nonce) ||!wp_verify_nonce($nonce, 'block_spammer_ip'))
+            {
+                $aio_wp_security->debug_logger->log_debug("Nonce check failed for delete selected blocked IP operation!",4);
+                die(__('Nonce check failed for delete selected blocked IP operation!','all-in-one-wp-security-and-firewall'));
+            }
+            
             //individual entry where "block" link was clicked
             //Check if the IP address is already in the blacklist. If not add it to the list.
             if (!in_array($entries, $currently_banned_ips))
@@ -136,7 +150,7 @@ class AIOWPSecurity_List_Comment_Spammer_IP extends AIOWPSecurity_List_Table {
         //Let's save the selected IP addresses to the blacklist config
         $aio_wp_security->configs->set_value('aiowps_banned_ip_addresses',$raw_banned_ip_list); //Save the blocked IP address config variable with the newly added addresses
         $aio_wp_security->configs->save_config();
-        AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The selected IP addresses were saved in the blacklist configuration settings.','aiowpsecurity'));
+        AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The selected IP addresses were saved in the blacklist configuration settings.','all-in-one-wp-security-and-firewall'));
 
         //Let's check if the Enable Blacklisting flag has been set - If so, we will write the new data to the .htaccess file.
         if($aio_wp_security->configs->get_value('aiowps_enable_blacklisting')=='1')
@@ -144,20 +158,20 @@ class AIOWPSecurity_List_Comment_Spammer_IP extends AIOWPSecurity_List_Table {
             $write_result = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
             if ($write_result == -1)
             {
-                AIOWPSecurity_Admin_Menu::show_msg_error_st(__('The plugin was unable to write to the .htaccess file. Please edit file manually.','aiowpsecurity'));
+                AIOWPSecurity_Admin_Menu::show_msg_error_st(__('The plugin was unable to write to the .htaccess file. Please edit file manually.','all-in-one-wp-security-and-firewall'));
                 $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_Blacklist_Menu - The plugin was unable to write to the .htaccess file.");
             }
             else
             {
                 
-                AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The .htaccess file was successfully modified to include the selected IP addresses.','aiowpsecurity'));
+                AIOWPSecurity_Admin_Menu::show_msg_updated_st(__('The .htaccess file was successfully modified to include the selected IP addresses.','all-in-one-wp-security-and-firewall'));
             }
         }
         else
         {
             $blacklist_settings_link = '<a href="admin.php?page='.AIOWPSEC_BLACKLIST_MENU_SLUG.'">Ban Users</a>';
-            $info_msg = '<p>'.__('NOTE: The .htaccess file was not modified because you have disabled the "Enable IP or User Agent Blacklisting" check box.', 'aiowpsecurity').
-                        '<br />'.sprintf( __('To block these IP addresses you will need to enable the above flag in the %s menu', 'aiowpsecurity'), $blacklist_settings_link).'</p>';
+            $info_msg = '<p>'.__('NOTE: The .htaccess file was not modified because you have disabled the "Enable IP or User Agent Blacklisting" check box.', 'all-in-one-wp-security-and-firewall').
+                        '<br />'.sprintf( __('To block these IP addresses you will need to enable the above flag in the %s menu', 'all-in-one-wp-security-and-firewall'), $blacklist_settings_link).'</p>';
             AIOWPSecurity_Admin_Menu::show_msg_updated_st($info_msg);
         }
     }
@@ -181,16 +195,22 @@ class AIOWPSecurity_List_Comment_Spammer_IP extends AIOWPSecurity_List_Table {
         }
         /* -- Ordering parameters -- */
 	//Parameters that are going to be used to order the result
-	$orderby = !empty($_GET["orderby"]) ? mysql_real_escape_string($_GET["orderby"]) : 'amount';
-	$order = !empty($_GET["order"]) ? mysql_real_escape_string($_GET["order"]) : 'DESC';
+        isset($_GET["orderby"]) ? $orderby = strip_tags($_GET["orderby"]): $orderby = '';
+        isset($_GET["order"]) ? $order = strip_tags($_GET["order"]): $order = '';
+        
+	$orderby = !empty($orderby) ? esc_sql($orderby) : 'amount';
+	$order = !empty($order) ? esc_sql($order) : 'DESC';
 
-        $sql = "SELECT   comment_author_IP, COUNT(*) AS amount
+        $orderby = AIOWPSecurity_Utility::sanitize_value_by_array($orderby, $sortable);
+        $order = AIOWPSecurity_Utility::sanitize_value_by_array($order, array('DESC' => '1', 'ASC' => '1'));
+        
+        $sql = $wpdb->prepare("SELECT   comment_author_IP, COUNT(*) AS amount
                 FROM     $wpdb->comments 
                 WHERE    comment_approved = 'spam'
                 GROUP BY comment_author_IP
-                HAVING   amount >= $minimum_comments_per_ip
+                HAVING   amount >= %d
                 ORDER BY $orderby $order
-                ";
+                ", $minimum_comments_per_ip);
         $data = $wpdb->get_results($sql, ARRAY_A);
         $current_page = $this->get_pagenum();
         $total_items = count($data);

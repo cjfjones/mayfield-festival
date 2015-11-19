@@ -70,8 +70,11 @@ class AIOWPSecurity_Utility
         }
         
         //check users table
-        $user = $wpdb->get_var( "SELECT user_login FROM `" . $wpdb->users . "` WHERE user_login='" . sanitize_text_field( $username ) . "';" );
-        $userid = $wpdb->get_var( "SELECT ID FROM `" . $wpdb->users . "` WHERE ID='" . sanitize_text_field( $username ) . "';" );
+        //$user = $wpdb->get_var( "SELECT user_login FROM `" . $wpdb->users . "` WHERE user_login='" . sanitize_text_field( $username ) . "';" );
+        $sql_1 = $wpdb->prepare("SELECT user_login FROM $wpdb->users WHERE user_login=%s", sanitize_text_field( $username ));
+        $user = $wpdb->get_var( $sql_1 );
+        $sql_2 = $wpdb->prepare("SELECT ID FROM $wpdb->users WHERE ID=%s", sanitize_text_field( $username ));
+        $userid = $wpdb->get_var( $sql_2 );
 
         if ( $user == $username || $userid == $username ) {
             return true;
@@ -117,6 +120,22 @@ class AIOWPSecurity_Utility
         return $string;
     }
     
+    
+    /*
+     * Generates a random number using a-z characters
+     */
+    static function generate_alpha_random_string($string_length)
+    {
+        //Charecters present in table prefix
+        $allowed_chars = 'abcdefghijklmnopqrstuvwxyz';
+        $string = '';
+        //Generate random string
+        for ($i = 0; $i < $string_length; $i++) {
+            $string .= $allowed_chars[rand(0, strlen($allowed_chars) - 1)];
+        }
+        return $string;
+    }
+    
     static function set_cookie_value($cookie_name, $cookie_value, $expiry_seconds = 86400, $path = '/', $cookie_domain = '')
     {
         $expiry_time = time() + intval($expiry_seconds);
@@ -147,8 +166,8 @@ class AIOWPSecurity_Utility
     static function display_multisite_message()
     {
         echo '<div class="aio_yellow_box">';
-        echo '<p>'.__('The plugin has detected that you are using a Multi-Site WordPress installation.', 'aiowpsecurity').'</p>
-              <p>'.__('This feature can only be configured by the "superadmin" on the main site.', 'aiowpsecurity').'</p>';
+        echo '<p>'.__('The plugin has detected that you are using a Multi-Site WordPress installation.', 'all-in-one-wp-security-and-firewall').'</p>
+              <p>'.__('This feature can only be configured by the "superadmin" on the main site.', 'all-in-one-wp-security-and-firewall').'</p>';
         echo '</div>';
     }
     
@@ -176,11 +195,11 @@ class AIOWPSecurity_Utility
             {
                 $config_contents[$line_num] = str_replace('false', 'true', $line);
                 $edit_file_config_entry_exists = true;
-                //$this->show_msg_updated(__('Settings Saved - The ability to edit PHP files via the admin the panel has been DISABLED.', 'aiowpsecurity'));
+                //$this->show_msg_updated(__('Settings Saved - The ability to edit PHP files via the admin the panel has been DISABLED.', 'all-in-one-wp-security-and-firewall'));
             } else if(strpos($line, "'DISALLOW_FILE_EDIT', true"))
             {
                 $edit_file_config_entry_exists = true;
-                //$this->show_msg_updated(__('Your system config file is already configured to disallow PHP file editing.', 'aiowpsecurity'));
+                //$this->show_msg_updated(__('Your system config file is already configured to disallow PHP file editing.', 'all-in-one-wp-security-and-firewall'));
                 return true;
                 
             }
@@ -203,22 +222,22 @@ class AIOWPSecurity_Utility
         //Make a backup of the config file
         if(!AIOWPSecurity_Utility_File::backup_and_rename_wp_config($config_file))
         {
-            $this->show_msg_error(__('Failed to make a backup of the wp-config.php file. This operation will not go ahead.', 'aiowpsecurity'));
+            $this->show_msg_error(__('Failed to make a backup of the wp-config.php file. This operation will not go ahead.', 'all-in-one-wp-security-and-firewall'));
             //$aio_wp_security->debug_logger->log_debug("Disable PHP File Edit - Failed to make a backup of the wp-config.php file.",4);
             return false;
         }
         else{
-            //$this->show_msg_updated(__('A backup copy of your wp-config.php file was created successfully....', 'aiowpsecurity'));
+            //$this->show_msg_updated(__('A backup copy of your wp-config.php file was created successfully....', 'all-in-one-wp-security-and-firewall'));
         }
 
         //Now let's modify the wp-config.php file
         if (AIOWPSecurity_Utility_File::write_content_to_file($config_file, $config_contents))
         {
-            //$this->show_msg_updated(__('Settings Saved - Your system is now configured to not allow PHP file editing.', 'aiowpsecurity'));
+            //$this->show_msg_updated(__('Settings Saved - Your system is now configured to not allow PHP file editing.', 'all-in-one-wp-security-and-firewall'));
             return true;
         }else
         {
-            //$this->show_msg_error(__('Operation failed! Unable to modify wp-config.php file!', 'aiowpsecurity'));
+            //$this->show_msg_error(__('Operation failed! Unable to modify wp-config.php file!', 'all-in-one-wp-security-and-firewall'));
             $aio_wp_security->debug_logger->log_debug("Disable PHP File Edit - Unable to modify wp-config.php",4);
             return false;
         }
@@ -249,7 +268,7 @@ class AIOWPSecurity_Utility
             } else if(strpos($line, "'DISALLOW_FILE_EDIT', false"))
             {
                 $edit_file_config_entry_exists = true;
-                //$this->show_msg_updated(__('Your system config file is already configured to allow PHP file editing.', 'aiowpsecurity'));
+                //$this->show_msg_updated(__('Your system config file is already configured to allow PHP file editing.', 'all-in-one-wp-security-and-firewall'));
                 return true;
             }
         }
@@ -257,18 +276,18 @@ class AIOWPSecurity_Utility
         if (!$edit_file_config_entry_exists)
         {
             //if the DISALLOW_FILE_EDIT settings don't exist in wp-config.php then we don't need to do anything
-            //$this->show_msg_updated(__('Your system config file is already configured to allow PHP file editing.', 'aiowpsecurity'));
+            //$this->show_msg_updated(__('Your system config file is already configured to allow PHP file editing.', 'all-in-one-wp-security-and-firewall'));
             return true;
         } else
         {
             //Now let's modify the wp-config.php file
             if (AIOWPSecurity_Utility_File::write_content_to_file($config_file, $config_contents))
             {
-                //$this->show_msg_updated(__('Settings Saved - Your system is now configured to allow PHP file editing.', 'aiowpsecurity'));
+                //$this->show_msg_updated(__('Settings Saved - Your system is now configured to allow PHP file editing.', 'all-in-one-wp-security-and-firewall'));
                 return true;
             }else
             {
-                //$this->show_msg_error(__('Operation failed! Unable to modify wp-config.php file!', 'aiowpsecurity'));
+                //$this->show_msg_error(__('Operation failed! Unable to modify wp-config.php file!', 'all-in-one-wp-security-and-firewall'));
                 //$aio_wp_security->debug_logger->log_debug("Disable PHP File Edit - Unable to modify wp-config.php",4);
                 return false;
             }
@@ -405,10 +424,92 @@ class AIOWPSecurity_Utility
         if ($result > 0)
         {
         }
-        else if ($result == FALSE)
+        else if ($result === FALSE)
         {
             $aio_wp_security->debug_logger->log_debug("lock_IP: Error inserting record into ".$login_lockdown_table,4);//Log the highly unlikely event of DB error
         }
+    }
+    
+    /*
+     * Returns an array of blog_ids for a multisite install
+     * If site is not multisite returns empty array
+     */
+    static function get_blog_ids()
+    {
+        global $wpdb, $aio_wp_security;
+        if (AIOWPSecurity_Utility::is_multisite_install()) {
+            global $wpdb;
+            $blog_ids = $wpdb->get_col("SELECT blog_id FROM ".$wpdb->prefix."blogs");
+        }else{
+            $blog_ids = array();
+        }
+        return $blog_ids;
+    }
+    
+    
+    //This function will delete the oldest rows from a table which are over the max amount of rows specified 
+    static function cleanup_table($table_name, $max_rows = '10000')
+    {
+        global $wpdb, $aio_wp_security;
+
+        $num_rows = $wpdb->get_var("select count(*) from $table_name");
+        $result = true;
+        if($num_rows > $max_rows){
+            //if the table has more than max entries delete oldest rows
+            
+            $del_sql = "DELETE FROM $table_name
+                        WHERE id <= (
+                          SELECT id
+                          FROM (
+                            SELECT id
+                            FROM $table_name
+                            ORDER BY id DESC
+                            LIMIT 1 OFFSET $max_rows
+                          ) foo_tmp
+                        )";
+            
+            $result = $wpdb->query($del_sql);
+            if($result === false){
+                $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_Utility::cleanup_table failed for table name: ".$table_name,4);
+            }
+        }
+        return ($result === false)?false:true;
+    }
+
+    //Gets server type. Returns -1 if server is not supported
+    static function get_server_type()
+    {
+        //figure out what server they're using
+        if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'apache'))
+        {
+            return 'apache';
+        } 
+        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'nginx'))
+        {
+            return 'nginx';
+        } 
+        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'litespeed'))
+        {
+            return 'litespeed';
+        }
+        else 
+        { //unsupported server
+            return -1;
+        }
+        
+    }
+    
+    /*
+     * Checks if the string exists in the array key value of the provided array. If it doesn't exist, it returns the first key element from the valid values.
+     */
+    static function sanitize_value_by_array($to_check, $valid_values)
+    {
+        $keys = array_keys($valid_values);
+        $keys = array_map('strtolower', $keys);
+        if ( in_array( $to_check, $keys ) ) {
+            return $to_check;
+        }
+        return reset($keys);//Return he first element from the valid values
     }
     
 }

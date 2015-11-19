@@ -70,12 +70,15 @@ class AIOWPSecurity_Configure_Settings
         //Firewall features
         $aio_wp_security->configs->set_value('aiowps_enable_basic_firewall','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_enable_pingback_firewall','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_block_debug_log_file_access','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_disable_index_views','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_disable_trace_and_track','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_forbid_proxy_comments','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_deny_bad_query_strings','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_advanced_char_string_filter','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_enable_5g_firewall','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_custom_rules','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_custom_rules','');
         
         //404 detection
         $aio_wp_security->configs->set_value('aiowps_enable_404_logging','');//Checkbox
@@ -190,12 +193,15 @@ class AIOWPSecurity_Configure_Settings
         //Firewall features
         $aio_wp_security->configs->add_value('aiowps_enable_basic_firewall','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_enable_pingback_firewall','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_block_debug_log_file_access','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_disable_index_views','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_disable_trace_and_track','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_forbid_proxy_comments','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_deny_bad_query_strings','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_advanced_char_string_filter','');//Checkbox
         $aio_wp_security->configs->add_value('aiowps_enable_5g_firewall','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_enable_custom_rules','');//Checkbox
+        $aio_wp_security->configs->add_value('aiowps_custom_rules','');
 
         //404 detection
         $aio_wp_security->configs->add_value('aiowps_enable_404_logging','');//Checkbox
@@ -249,6 +255,13 @@ class AIOWPSecurity_Configure_Settings
     static function turn_off_all_security_features()
     {
         AIOWPSecurity_Configure_Settings::set_default_settings();
+        
+        //Refresh the .htaccess file based on the new settings
+        $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
+        if($res == -1)
+        {
+            $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_Configure_Settings::turn_off_all_firewall_rules() - Could not write to the .htaccess file. Please check the file permissions.",4);
+        }
     }
     
     static function turn_off_all_firewall_rules()
@@ -259,6 +272,7 @@ class AIOWPSecurity_Configure_Settings
         
         $aio_wp_security->configs->set_value('aiowps_enable_basic_firewall','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_enable_pingback_firewall','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_block_debug_log_file_access','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_disable_index_views','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_disable_trace_and_track','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_forbid_proxy_comments','');//Checkbox
@@ -266,6 +280,8 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_advanced_char_string_filter','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_enable_5g_firewall','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_enable_brute_force_attack_prevention','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_enable_custom_rules','');//Checkbox
+        $aio_wp_security->configs->set_value('aiowps_custom_rules','');
 
         $aio_wp_security->configs->set_value('aiowps_prevent_default_wp_file_access','');//Checkbox
         
@@ -275,16 +291,18 @@ class AIOWPSecurity_Configure_Settings
         $aio_wp_security->configs->set_value('aiowps_enable_404_logging','');//Checkbox
         $aio_wp_security->configs->set_value('aiowps_enable_404_IP_lockout','');//Checkbox
         
+        //Prevent Image Hotlinks
+        $aio_wp_security->configs->set_value('aiowps_prevent_hotlinking','');//Checkbox
+        
         $aio_wp_security->configs->save_config();
+        
+        //Refresh the .htaccess file based on the new settings
+        $res = AIOWPSecurity_Utility_Htaccess::write_to_htaccess();
+
+        if($res == -1)
+        {
+            $aio_wp_security->debug_logger->log_debug("AIOWPSecurity_Configure_Settings::turn_off_all_firewall_rules() - Could not write to the .htaccess file. Please check the file permissions.",4);
+        }
     }
 
-    static function restore_to_factory_default()
-    {
-        //TOOD - complete the implementation
-        //restore wp_config_file();//TODO - //TODO - write implementation in the utility class
-        //restore site_htaccess_file();//TODO - write implementation in the utility class
-        //AIOWPSecurity_Configure_Settings::set_default_settings();
-        //Maybe allow them to revert the DB Prefix too?
-        //File permissions
-    }
 }

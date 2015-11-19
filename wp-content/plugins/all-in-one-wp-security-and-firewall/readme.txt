@@ -1,10 +1,10 @@
 === All In One WP Security & Firewall ===
-Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin, samuelaguilera
+Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski, Ruhul Amin, mbrsolution, samuelaguilera
 Donate link: https://www.tipsandtricks-hq.com
 Tags: security, secure, Anti Virus, antivirus, ban, ban hacker, virus, firewall, firewall security, login, lockdown, htaccess, hack, malware, vulnerability, protect, protection, phishing, database, backup, plugin, sql injection, ssl, restrict, login captcha, bot, hotlink, 404 detection, admin, rename, all in one, scan, scanner, iframe,
 Requires at least: 3.5
-Tested up to: 4.0
-Stable tag: 3.8.2
+Tested up to: 4.3.1
+Stable tag: 4.0.1
 License: GPLv3
 
 A comprehensive, user-friendly, all in one WordPress security and firewall plugin for your site.
@@ -80,18 +80,20 @@ via email whenever somebody gets locked out due to too many login attempts.
 This plugin allows you to easily add a lot of firewall protection to your site via htaccess file. An htaccess file is processed by your web server before any other code on your site. 
 So these firewall rules will stop malicious script(s) before it gets a chance to reach the WordPress code on your site.
 
-* Access control facility
-* Instantly activate a selection of firewall settings ranging from basic, intermediate and advanced
+* Access control facility.
+* Instantly activate a selection of firewall settings ranging from basic, intermediate and advanced.
 * Enable the famous "5G Blacklist" Firewall rules courtesy of [Perishable Press](http://perishablepress.com/)
-* Forbid proxy comment posting
-* Disable trace and track
-* Deny bad or malicious query strings
+* Forbid proxy comment posting.
+* Block access to debug log file.
+* Disable trace and track.
+* Deny bad or malicious query strings.
 * Protect against Cross Site Scripting (XSS) by activating the comprehensive advanced character string filter.
 or malicious bots who do not have a special cookie in their browser. You (the site admin) will know how to set this special cookie and be able to log into your site.
 * WordPress PingBack Vulnerability Protection feature. This firewall feature allows the user to prohibit access to the xmlrpc.php file in order to protect against certain vulnerabilities in the pingback functionality. This is also helpful to block bots from constantly accessing the xmlrpc.php file and wasting your server resource.
 * Ability to block fake Googlebots from crawling your site.
 * Ability to prevent image hotlinking. Use this to prevent others from hotlinking your images.
 * Ability to log all 404 events on your site. You can also choose to automatically block IP addresses that are hitting too many 404s.
+* Ability to add custom rules to block access to various resources of your site.
 
 = Brute force login attack prevention =
 * Instantly block Brute Force Login Attacks via our special Cookie-Based Brute Force Login Prevention feature. This firewall functionality will block all login attempts from people and bots.
@@ -135,7 +137,21 @@ or malicious bots who do not have a special cookie in their browser. You (the si
 * Github repository - https://github.com/Arsenal21/all-in-one-wordpress-security
 
 = Translations =
-* All In One WP Security plugin can be translated to any language.
+* All In One WP Security plugin can be translated to any language. 
+
+Currently available translations:
+
+- English
+- German
+- Spanish
+- French
+- Hungarian
+- Italian
+- Swedish
+- Russian
+- Chinese
+- Portuguese (Brazil)
+- Persian
 
 Visit the [WordPress Security Plugin](https://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin) page for more details.
 
@@ -163,6 +179,114 @@ https://www.tipsandtricks-hq.com/wordpress-security-and-firewall-plugin
 None
 
 == Changelog ==
+= 4.0.1 =
+- Renamed the language files to match the new textdomain slug to fix the language translation bug.
+- Fixed bug related to the rename login feature and force logout or logout expiry events.
+
+= 4.0.0 =
+- Updated text domain to match expected value for translate.wordpress.org translation system.
+- Fixed bug related to multi-site user_roles not being updated for child sites.
+- Fixed minor bug in rename login feature.
+- Updated the Italian language file. 
+
+= 3.9.9 =
+- Fixed an issue with the rename login page feature for WordPress 4.3
+- Added esc_attr() sanitization to some of the relevant parameters
+- Added the necessary changes to allow activation via wp-cli
+
+= 3.9.8 =
+- Added guard against possible XSS in the unlock request feature.
+
+= 3.9.7 =
+- Added new feature which allows custom .htaccess rules. (See "Custom Rules" tab in Firewall menu). You can now use this to add custom rules to block access to various resources on your site.
+- Added a new feature to block access to the wp-content/debug.log file (WordPress creates this file if you enabled debug loggin option in the config file).
+- Removed the "v" from version number of the plugin.
+- Completed testing with WordPress 4.3.
+
+= 3.9.6 =
+- Added Rename Login page feature from the "Brute Force" menu to multisite sub-sites.
+- Removed invalid "length" attribute from input element in captcha code.
+- Fixed reset password feature whereby the URL which is sent out in the email for cases when rename login feature is enabled was not decoded properly.
+- Corrected the check for boolean false if returned from wpdb query result.
+- Added media button for wp editor in maintenance settings page.
+
+= 3.9.5 =
+- Fixed minor bug - IP addresses blocked due to '404' were not being listed in the display table.
+- Updated the Russian language translation file.
+- The automatic database table prefix generation value will use a-z characters only.
+- Added esc_url sanitization to the add_query_arg/remove_query_arg function instances to prevent possible XSS.
+
+= 3.9.4 =
+- The sort order and orderby parameters now use a whitelisting approach for sanitization.
+
+= 3.9.3 =
+- Fixed the sort order not working in the 404 error logging and account activity page.
+
+= 3.9.2 =
+- Added a check for registration captcha feature to prevent errors when using another captcha plugin. 
+- Improved a few SQL statements.
+
+= 3.9.1 =
+- Added new "Force Logout" feature which will instantly force a certain user to be logged out of their session. (See the "Logged In Users" tab in User Login menu)
+- Added more security protection for aiowps log files by creating .htaccess file and rules. AIOWPS log files can now only be viewed via dashboard menu, in new tab called "AIOWPS Logs". (NOTE:This security currently applies only for apache or similar servers)
+- Added backticks to SQL statement for DB prefix change to help prevent errors.
+- Added protection against possible SQL injection attacks.
+
+= 3.9.0 =
+- Added some robustness to the file-scan code.
+- Added extra security to all relevant list table instances to prevent unlikely malicious deletion commands.
+- Fixed the user agent part of the blacklist settings code to allow user-agents to be cleared upon saving.
+
+= 3.8.9 =
+- Fixed bug in the new feature which allows permanent blocking of IP addresses that create 404 events.
+- Fixed minor bug for all instances where wpdb "prepare" was being used with order/orderby parameters.
+- Fixed a possible open redirect vulnerability. Thanks to Sucuri for pointing it out.
+
+= 3.8.8 =
+- Added extra robustness and security for wp list table db commands by using wpdb "prepare" command.
+- Fixed minor bug with undeclared variable in rename login feature page.
+
+= 3.8.7 =
+- Added an improvement for login lockdown feature - locked IP addresses will no longer be allowed to register.
+- Added a "view" link for each account in the pending registration approval table list.
+- Fixed 404 logging/lockout bug.
+- Added ability to permanently block IP addresses from the 404 event list for both bulk and single cases.
+- Added ability to do bulk temp blocking for IP addresses in 404 list.
+- Fixed a minor bug with validate_ip_list function.
+
+= 3.8.6 =
+- DB cleanup cron event bug fixed.
+- Added Swedish language translation. The translation was submitted by Tor-Björn Fjellner.
+- Updated the Russian language translation file. Update submitted by Tor-Björn Fjellner.
+- The events table will automatically be cleaned up so it only keeps the last 5000 entries. You can override it using a filter (if you wanted to).
+
+= 3.8.5 =
+- Added functionality to prevent the aiowps_events table from getting too large.
+- Added file change scan summary inside the alert email.
+- Fixed the unlock feature so that it works correctly when the Rename Login Page feature is active.
+- Added a check in the list logged in users file to prevent error when get_transient returns false.
+
+= 3.8.4 = 
+- Updated POT language file.
+- Tweaked the function which retrieves the IP address to handle cases where traffic is coming from cloudflare
+- The MySQL database will not be forced anymore at the time of creating the table. It also reads the characters set value from the system first.
+- Applied fixes to prevent remotely exploitable vulnerabilities.
+
+= 3.8.3 = 
+- Modified "Pingback Protection" .htaccess rules to prevent xmlrpc login attacks and to be compatible with more servers.
+- Made improvements to ensure that the rename login and white list features can be used together.
+- Added a check to force user to enter alphanumeric string for renamed login slug.
+- Improved the turn_off_all_firewall_rules() and turn_off_all_security_features() functions so that they also handle the updating of the htaccess file.
+- Added an alternative way to import settings via a text box (Thanks to Dave McHale). This is for people who might have issues using the config settings file uploader. 
+- Added fix to properly update options tables when changing DB prefix in multisite system.
+- Greatly improved the Renamed Login Page feature by removing various potential vulnerabilities.
+- Added an if statement check to fix bug with rename login page feature - special case where user had non permalink structure was not working correctly in some rare scenarios.
+- Updated the Italian language file.
+- Fixed bug regarding wp_mail malformed header when "From" string was empty due to "site title" not being set.
+- Fixed bug in IP list validation function for blacklist feature.
+- Removed strict filtering of IP addresses so as to allow internal IP address ranges.
+- Added stripping of orderby and order query parameters in the plugin.
+- Added search capability by IP address, URL or referer for the 404 events list table. 
 
 = 3.8.2 = 
 - Fixed a CSS issue with the honeypot feature.

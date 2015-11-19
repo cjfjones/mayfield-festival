@@ -1,5 +1,7 @@
 <?php
 
+include_once(dirname(__FILE__) . '/wp-security-configure-settings.php');//Allows activating via wp-cli
+
 class AIOWPSecurity_Installer
 {
     static function run_installer()
@@ -26,12 +28,12 @@ class AIOWPSecurity_Installer
         AIOWPSecurity_Installer::create_db_tables();
         AIOWPSecurity_Configure_Settings::add_option_values();
         AIOWPSecurity_Installer::create_db_backup_dir(); //Create a backup dir in the WP uploads directory
-        
+        AIOWPSecurity_Installer::miscellaneous_tasks();
     }
     
     static function create_db_tables()
     {
-        //global $wpdb;
+        global $wpdb;
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         
         //"User Login" related tables
@@ -41,6 +43,16 @@ class AIOWPSecurity_Installer
         $aiowps_global_meta_tbl_name = AIOWPSEC_TBL_GLOBAL_META_DATA;
         $aiowps_event_tbl_name = AIOWPSEC_TBL_EVENTS;
 
+        $charset_collate = '';
+        if (!empty($wpdb->charset)){
+            $charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+        }else{
+            $charset_collate = "DEFAULT CHARSET=utf8";
+        }
+        if (!empty($wpdb->collate)){
+            $charset_collate .= " COLLATE $wpdb->collate";
+        }
+                
 	$ld_tbl_sql = "CREATE TABLE " . $lockdown_tbl_name . " (
         id bigint(20) NOT NULL AUTO_INCREMENT,
         user_id bigint(20) NOT NULL,
@@ -51,7 +63,7 @@ class AIOWPSecurity_Installer
         lock_reason varchar(128) NOT NULL DEFAULT '',
         unlock_key varchar(128) NOT NULL DEFAULT '',
         PRIMARY KEY  (id)
-        )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+        )" . $charset_collate . ";";
 	dbDelta($ld_tbl_sql);
 
 	$fl_tbl_sql = "CREATE TABLE " . $failed_login_tbl_name . " (
@@ -61,7 +73,7 @@ class AIOWPSecurity_Installer
         failed_login_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
         login_attempt_ip varchar(100) NOT NULL DEFAULT '',
         PRIMARY KEY  (id)
-        )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+        )" . $charset_collate . ";";
 	dbDelta($fl_tbl_sql);
         
         $ula_tbl_sql = "CREATE TABLE " . $user_login_activity_tbl_name . " (
@@ -74,7 +86,7 @@ class AIOWPSecurity_Installer
         login_country varchar(150) NOT NULL DEFAULT '',
         browser_type varchar(150) NOT NULL DEFAULT '',
         PRIMARY KEY  (id)
-        )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+        )" . $charset_collate . ";";
 	dbDelta($ula_tbl_sql);
 
         $gm_tbl_sql = "CREATE TABLE " . $aiowps_global_meta_tbl_name . " (
@@ -91,7 +103,7 @@ class AIOWPSecurity_Installer
         meta_value4 longtext NOT NULL,
         meta_value5 longtext NOT NULL,
         PRIMARY KEY  (meta_id)
-        )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+        )" . $charset_collate . ";";
         dbDelta($gm_tbl_sql);
                 
         $evt_tbl_sql = "CREATE TABLE " . $aiowps_event_tbl_name . " (
@@ -105,7 +117,7 @@ class AIOWPSecurity_Installer
         url varchar(255),
         event_data longtext,
         PRIMARY KEY  (id)
-        )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+        )" . $charset_collate . ";";
         dbDelta($evt_tbl_sql);
 
         update_option("aiowpsec_db_version", AIO_WP_SECURITY_DB_VERSION);
@@ -123,16 +135,22 @@ class AIOWPSecurity_Installer
             $handle = fopen($index_file, 'w'); //or die('Cannot open file:  '.$index_file);
             fclose($handle);
         }
-        //Create an .htacces file
-        //Write some rules which will only allow people originating from wp admin page to download the DB backup
-        $rules = '';
-        $rules .= 'order deny,allow
-deny from all' . PHP_EOL;
-        $file = $aiowps_dir.'/.htaccess';
-        $write_result = file_put_contents($file, $rules);
-        if ($write_result === false)
-        {
-            $aio_wp_security->debug_logger->log_debug("Creation of .htaccess file in ".AIO_WP_SECURITY_BACKUPS_DIR_NAME." directory failed!",4);
+        $server_type = AIOWPSecurity_Utility::get_server_type();
+        //Only create .htaccess if server is the right type
+        if($server_type == 'apache' || $server_type == 'litespeed'){
+            $file = $aiowps_dir.'/.htaccess';
+            if(!file_exists($file)){
+                //Create an .htacces file
+                //Write some rules which will only allow people originating from wp admin page to download the DB backup
+                $rules = '';
+                $rules .= 'order deny,allow' . PHP_EOL;
+                $rules .= 'deny from all' . PHP_EOL;
+                $write_result = file_put_contents($file, $rules);
+                if ($write_result === false)
+                {
+                    $aio_wp_security->debug_logger->log_debug("Creation of .htaccess file in ".AIO_WP_SECURITY_BACKUPS_DIR_NAME." directory failed!",4);
+                }
+            }
         }
     }
     
@@ -163,6 +181,35 @@ deny from all' . PHP_EOL;
             return false;
         }
     }
+    
+    static function miscellaneous_tasks()
+    {
+        //Create .htaccess file to protect log files in "logs" dir
+        self::create_htaccess_logs_dir();
+    }
+    
+    static function create_htaccess_logs_dir()
+    {
+        global $aio_wp_security;
+        $aiowps_log_dir = AIO_WP_SECURITY_PATH.'/logs';
+        $server_type = AIOWPSecurity_Utility::get_server_type();
+        //Only create .htaccess if server is the right type
+        if($server_type == 'apache' || $server_type == 'litespeed'){
+            $file = $aiowps_log_dir.'/.htaccess';
+            if(!file_exists($file)){
+                //Write some rules which will stop people from viewing the log files publicly
+                $rules = '';
+                $rules .= 'order deny,allow' . PHP_EOL;
+                $rules .= 'deny from all' . PHP_EOL;
+                $write_result = file_put_contents($file, $rules);
+                if ($write_result === false)
+                {
+                    $aio_wp_security->debug_logger->log_debug("Creation of .htaccess file in ".$aiowps_log_dir." directory failed!",4);
+                }
+            }
+        }
+    }
+    
 
 //    //Read entire contents of file at activation time and store serialized contents in our global_meta table
 //    static function backup_file_contents_to_db_at_activation($src_file, $key_description)

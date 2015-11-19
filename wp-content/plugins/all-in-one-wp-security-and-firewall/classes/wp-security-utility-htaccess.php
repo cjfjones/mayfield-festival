@@ -16,6 +16,9 @@ class AIOWPSecurity_Utility_Htaccess
     public static $pingback_htaccess_rules_marker_start = '#AIOWPS_PINGBACK_HTACCESS_RULES_START';
     public static $pingback_htaccess_rules_marker_end = '#AIOWPS_PINGBACK_HTACCESS_RULES_END';
 
+    public static $debug_log_block_htaccess_rules_marker_start = '#AIOWPS_DEBUG_LOG_BLOCK_HTACCESS_RULES_START';
+    public static $debug_log_block_htaccess_rules_marker_end = '#AIOWPS_DEBUG_LOG_BLOCK_HTACCESS_RULES_END';
+    
     public static $user_agent_blacklist_marker_start = '#AIOWPS_USER_AGENT_BLACKLIST_START';
     public static $user_agent_blacklist_marker_end = '#AIOWPS_USER_AGENT_BLACKLIST_END';
     
@@ -48,41 +51,22 @@ class AIOWPSecurity_Utility_Htaccess
     
     public static $prevent_image_hotlinks_marker_start = '#AIOWPS_PREVENT_IMAGE_HOTLINKS_START';
     public static $prevent_image_hotlinks_marker_end = '#AIOWPS_PREVENT_IMAGE_HOTLINKS_END';
-    
+
+    public static $custom_rules_marker_start = '#AIOWPS_CUSTOM_RULES_START';
+    public static $custom_rules_marker_end = '#AIOWPS_CUSTOM_RULES_END';
+
     // TODO - enter more markers as new .htaccess features are added
     
     function __construct(){
         //NOP
     }
     
-    //Gets server type. Returns -1 if server is not supported
-    static function get_server_type()
-    {
-        //figure out what server they're using
-        if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'apache'))
-        {
-            return 'apache';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'nginx'))
-        {
-            return 'nginx';
-        } 
-        else if (strstr(strtolower(filter_var($_SERVER['SERVER_SOFTWARE'], FILTER_SANITIZE_STRING)), 'litespeed'))
-        {
-            return 'litespeed';
-        }
-        else 
-        { //unsupported server
-            return -1;
-        }
-        
-    }
-    
+   
     static function write_to_htaccess()
     {
        global $aio_wp_security;
         //figure out what server is being used
-        if (AIOWPSecurity_Utility_Htaccess::get_server_type() == -1) 
+        if (AIOWPSecurity_Utility::get_server_type() == -1) 
         {
             $aio_wp_security->debug_logger->log_debug("Unable to write to .htaccess - server type not supported!",4);
             return -1; //unable to write to the file
@@ -215,6 +199,7 @@ class AIOWPSecurity_Utility_Htaccess
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_block_wp_file_access();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_basic_htaccess();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_pingback_htaccess();
+        $rules .= AIOWPSecurity_Utility_Htaccess::getrules_block_debug_log_access_htaccess();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_disable_index_views();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_blacklist();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_disable_trace_and_track();
@@ -226,6 +211,7 @@ class AIOWPSecurity_Utility_Htaccess
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_block_spambots();
         $rules .= AIOWPSecurity_Utility_Htaccess::getrules_enable_login_whitelist();
         $rules .= AIOWPSecurity_Utility_Htaccess::prevent_image_hotlinks();
+        $rules .= AIOWPSecurity_Utility_Htaccess::getrules_custom_rules();
         //TODO: The following utility functions are ready to use when we write the menu pages for these features
 
         //Add more functions for features as needed
@@ -272,7 +258,7 @@ class AIOWPSecurity_Utility_Htaccess
     static function getrules_blacklist()
     {
         global $aio_wp_security;
-	$aiowps_server = AIOWPSecurity_Utility_Htaccess::get_server_type();	
+	$aiowps_server = AIOWPSecurity_Utility::get_server_type();	
         $rules = '';
         if($aio_wp_security->configs->get_value('aiowps_enable_blacklisting')=='1') 
         {
@@ -445,16 +431,33 @@ class AIOWPSecurity_Utility_Htaccess
         if($aio_wp_security->configs->get_value('aiowps_enable_pingback_firewall')=='1') 
         {
             $rules .= AIOWPSecurity_Utility_Htaccess::$pingback_htaccess_rules_marker_start . PHP_EOL; //Add feature marker start
-            //protect the htaccess file - this is done by default with apache config file but we are including it here for good measure
-            $rules .= '<IfModule mod_alias.c>' . PHP_EOL;
-            $rules .= 'RedirectMatch 403 /(.*)/xmlrpc\.php$' . PHP_EOL;
-            $rules .= '</IfModule>' . PHP_EOL;
+            $rules .= '<Files xmlrpc.php>' . PHP_EOL;
+            $rules .= 'order deny,allow' . PHP_EOL;
+            $rules .= 'deny from all' . PHP_EOL;
+            $rules .= '</Files>' . PHP_EOL;
             
             $rules .= AIOWPSecurity_Utility_Htaccess::$pingback_htaccess_rules_marker_end . PHP_EOL; //Add feature marker end
         }
 	return $rules;
     }
 
+    static function getrules_block_debug_log_access_htaccess()
+    {
+        global $aio_wp_security;
+		
+        $rules = '';
+        if($aio_wp_security->configs->get_value('aiowps_block_debug_log_file_access')=='1') 
+        {
+            $rules .= AIOWPSecurity_Utility_Htaccess::$debug_log_block_htaccess_rules_marker_start . PHP_EOL; //Add feature marker start            
+            $rules .= '<Files debug.log>' . PHP_EOL;
+            $rules .= 'order deny,allow' . PHP_EOL;
+            $rules .= 'deny from all' . PHP_EOL;
+            $rules .= '</Files>' . PHP_EOL;
+            $rules .= AIOWPSecurity_Utility_Htaccess::$debug_log_block_htaccess_rules_marker_end . PHP_EOL; //Add feature marker end
+        }
+	return $rules;
+    }
+    
     /*
      * This function will write some drectives to block all people who do not have a cookie 
      * when trying to access the WP login page
@@ -490,7 +493,10 @@ class AIOWPSecurity_Utility_Htaccess
 
 
     /*
-     * This function will write some directives to allow IPs in the whitelist to access login.php
+     * This function will write some directives to allow IPs in the whitelist to access wp-login.php or wp-admin
+     * The function also handles the following special cases:
+     * 1) If the rename login feature is being used: for this scenario instead of protecting wp-login.php we must protect the special page slug
+     * 2) If the rename login feature is being used AND non permalink URL structure: for this case need to use mod_rewrite because we must check QUERY_STRING 
      */
     static function getrules_enable_login_whitelist()  
     {
@@ -503,20 +509,43 @@ class AIOWPSecurity_Utility_Htaccess
             $parse_url = parse_url($site_url);
             $hostname = $parse_url['host'];
             $host_ip = gethostbyname($hostname);
+            $special_case = false;
             $rules .= AIOWPSecurity_Utility_Htaccess::$enable_login_whitelist_marker_start . PHP_EOL; //Add feature marker start
-            $rules .= '<FilesMatch "^(wp-login\.php)">' . PHP_EOL;
-            $rules .= 'Order Allow,Deny'. PHP_EOL;
-            $rules .= 'Allow from '.$hostname.PHP_EOL;
-            $rules .= 'Allow from '.$host_ip. PHP_EOL;
+            //If the rename login page feature is active, we will need to adjust the directives
+            if($aio_wp_security->configs->get_value('aiowps_enable_rename_login_page')=='1'){
+                $secret_slug = $aio_wp_security->configs->get_value('aiowps_login_page_slug');
+                if(!get_option('permalink_structure')){
+                    //standard url structure is being used - ie, non permalinks
+                    $special_case = true;
+                    $rules .= '<IfModule mod_rewrite.c>' . PHP_EOL;
+                    $rules .= 'RewriteEngine on' . PHP_EOL;
+                    $rules .= 'RewriteCond %{QUERY_STRING} ^'.$secret_slug.'$' . PHP_EOL;
+                    $rules .= 'RewriteCond %{REMOTE_ADDR} !^'. preg_quote($host_ip) . '[OR]' . PHP_EOL;
+                }else{
+                    $slug = preg_quote($secret_slug); //escape any applicable chars
+                    $rules .= '<FilesMatch "^('.$slug.')">' . PHP_EOL;
+                }
+            }else{
+                $rules .= '<FilesMatch "^(wp-login\.php)">' . PHP_EOL;
+            }
+            if(!$special_case){
+                $rules .= 'Order Allow,Deny'. PHP_EOL;
+                $rules .= 'Allow from '.$hostname.PHP_EOL;
+                $rules .= 'Allow from '.$host_ip. PHP_EOL;
+            }
             
             //Let's get list of whitelisted IPs
             $hosts = explode(PHP_EOL, $aio_wp_security->configs->get_value('aiowps_allowed_ip_addresses'));
             if (!empty($hosts) && !(sizeof($hosts) == 1 && trim($hosts[0]) == ''))
             {
                 $phosts = array();
+                $num_hosts = count($hosts);
+                $i = 0;
                 foreach ($hosts as $host)
                 {
                     $host = trim($host);
+                    $or_string = ($i == $num_hosts-1)?'':'[OR]'; //Add an [OR] clause for all except the last condition
+
                     if (!in_array($host, $phosts))
                     {
                         if (strstr($host, '*'))
@@ -534,10 +563,19 @@ class AIOWPSecurity_Utility_Htaccess
                             $dhost = trim( str_replace('*', '0', implode( '.', array_reverse( $parts ) ) ) . '/' . $netmask );
                             if (strlen($dhost) > 4)
                             {
-                                $trule = "Allow from " . $dhost . PHP_EOL;
-                                if (trim($trule) != 'Allow from')
-                                {
-                                    $rules .= $trule;
+                                if($special_case){
+                                    $dhost = preg_quote($dhost); //escape any applicable chars
+                                    $trule = 'RewriteCond %{REMOTE_ADDR} !^'. $dhost . $or_string . PHP_EOL;
+                                    if (trim($trule) != 'RewriteCond %{REMOTE_ADDR}!=')
+                                    {
+                                        $rules .= $trule;
+                                    }
+                                }else{
+                                    $trule = 'Allow from ' . $dhost . PHP_EOL;
+                                    if (trim($trule) != 'Allow from')
+                                    {
+                                        $rules .= $trule;
+                                    }
                                 }
                             }
                         }
@@ -546,16 +584,27 @@ class AIOWPSecurity_Utility_Htaccess
                             $dhost = trim( $host );
                             if (strlen($dhost) > 4)
                             {
-                                $rules .= "Allow from " . $dhost . PHP_EOL;
+                                if($special_case){
+                                    $dhost = preg_quote($dhost); //escape any applicable chars
+                                    $rules .= 'RewriteCond %{REMOTE_ADDR} !^'. $dhost . $or_string . PHP_EOL;
+                                }else{
+                                    $rules .= 'Allow from ' . $dhost . PHP_EOL;
+                                }
+                                
                             }
                         }
                     }
                     $phosts[] = $host;
+                    $i++;
                 }
             }
             
-//            $rules .= 'Allow from '.$white_ip. PHP_EOL;
-            $rules .= '</FilesMatch>' . PHP_EOL;
+            if($special_case){
+                $rules .= 'RewriteRule .* http://127.0.0.1 [L]' . PHP_EOL;
+                $rules .= '</IfModule>' . PHP_EOL;
+            }else{
+                $rules .= '</FilesMatch>' . PHP_EOL;
+            }
             $rules .= AIOWPSecurity_Utility_Htaccess::$enable_login_whitelist_marker_end . PHP_EOL; //Add feature marker end
         }
         
@@ -907,6 +956,26 @@ class AIOWPSecurity_Utility_Htaccess
         
 	return $rules;
     }
+
+    /**
+     * This function will write any custom htaccess rules into the server's .htaccess file
+     * @return string
+     */
+    static function getrules_custom_rules()
+    {
+        global $aio_wp_security;
+        $rules = '';
+        if($aio_wp_security->configs->get_value('aiowps_enable_custom_rules')=='1')
+        {
+            $custom_rules = $aio_wp_security->configs->get_value('aiowps_custom_rules');
+            $rules .= AIOWPSecurity_Utility_Htaccess::$custom_rules_marker_start . PHP_EOL; //Add feature marker start
+            $rules .= $custom_rules . PHP_EOL;
+            $rules .= AIOWPSecurity_Utility_Htaccess::$custom_rules_marker_end . PHP_EOL; //Add feature marker end
+        }
+
+        return $rules;
+    }
+
 
     /*
      * This function will do a quick check to see if a file's contents are actually .htaccess specific.
