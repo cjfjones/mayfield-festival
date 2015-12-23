@@ -1,16 +1,14 @@
 /*
  Theme Name:     twentysixteen Child Theme
- Theme URI:      http://hyperlinkcode.com/blog/?p=1021
- Description:    A bare-bones child theme for use with twentysixteen Theme from <a href="https://wordpress.org/">Wordpress</a>. To use this Child Theme, you must have <a href="https://wordpress.org/themes/twentysixteen/">twentysixteen</a> parent theme installed.
- Author:         Edward Zivkovic
- Author URI:     http://hyperlinkcode.com/
+ Theme URI:      http://www.mayfieldfestival.co.uk
+ Description:    Mayfield Festival Custom Child Theme
+ Author:         Paul Arnold
+ Author URI:     
  Template:       twentysixteen
  Version:        1.0.0
 */
  
 /* Add Custom CSS after this line */
-
-/* Demo Johnson Box code courtesy of: http://hyperlinkcode.com/blog/html-johnson-box/ */
 
 .site-footer .site-title:after {
     content: none;
