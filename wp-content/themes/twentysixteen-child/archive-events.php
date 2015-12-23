@@ -26,7 +26,8 @@ get_header(); ?>
 			$content = apply_filters('the_content', $page_data->post_content); // Get Content and retain Wordpress filters such as paragraph tags. Origin from: http://wordpress.org/support/topic/get_pagepost-and-no-paragraphs-problem
 			$title = $page_data->post_title; // Get title
 			//echo $content; // Output Content
-	?>
+		?>
+        
 		<?php if ( have_posts() ) : ?>
 
 			<header class="page-header">
