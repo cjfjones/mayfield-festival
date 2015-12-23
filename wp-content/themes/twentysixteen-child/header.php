@@ -29,7 +29,7 @@
 		<header id="masthead" class="site-header" role="banner">
 			<div class="site-header-main">
 				<div class="site-branding">
-                	<img src="/wp-content/themes/twentysixteen-child/images/mayfield-festival-logo.png" alt="Mayfield Festival" style="height:72px; width:192px;">
+                	<img src="/wp-content/themes/twentysixteen-child/images/mayfield-festival-logo.png" alt="Mayfield Festival" style="height:98px; width:288px;">
 					<?php if ( is_front_page() && is_home() ) : ?>
 						<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
 					<?php else : ?>
