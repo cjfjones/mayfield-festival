@@ -1,17 +1,17 @@
 <?php
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
-function theme_enqueue_styles() {
-    wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
+function theme_enqueue_styles() 
+    {
+        wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
+    }
 
-}
-?>
 
-<?php
 /** Custom post type for Events **/
 add_action('init', 'events_init');
 
-function events_init() {
-	$labels = array(
+function events_init() 
+    {
+	   $labels = array(
 					'name' => _x('Events', 'post type general name'),
 					'singular_name' => _x('Event', 'post type singular name'),
 					'add_new' => _x('Add New', 'event'),
@@ -24,7 +24,7 @@ function events_init() {
 					'not_found_in_trash' => __('No Event found in Trash'),
 					'menu_name' => _x('Events')
 					);
-	$args = array(
+	   $args = array(
 				  'labels' => $labels,
 				  'public' => true,
 				  'publicly_queryable' => true,
@@ -39,6 +39,6 @@ function events_init() {
 				  'supports' => array('title','category','editor','excerpt','custom-fields','thumbnail','page-attributes'),
 				  'show_in_nav_menus' => true
 				  );
-	register_post_type('events',$args);
-}
+	   register_post_type('events',$args);
+    }
 ?>
