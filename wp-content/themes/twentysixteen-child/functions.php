@@ -5,7 +5,6 @@ function theme_enqueue_styles()
         wp_enqueue_style( 'parent-style', get_template_directory_uri() . '/style.css' );
     }
 
-
 /** Custom post type for Events **/
 add_action('init', 'events_init');
 
