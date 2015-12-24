@@ -12,9 +12,9 @@ add_action('init', 'events_init');
 
 function events_init() {
 	$labels = array(
-					'name' => _x('Events', 'post type general name'),
-					'singular_name' => _x('Event', 'post type singular name'),
-					'add_new' => _x('Add New', 'event'),
+					'name' => __('Events', 'post type general name'),
+					'singular_name' => __('Event', 'post type singular name'),
+					'add_new' => __('Add New', 'event'),
 					'add_new_item' => __('Add New Event'),
 					'edit_item' => __('Edit This Event'),
 					'new_item' => __('New Event'),
@@ -22,7 +22,7 @@ function events_init() {
 					'search_items' => __('Search Events'),
 					'not_found' => __('No Event found'),
 					'not_found_in_trash' => __('No Event found in Trash'),
-					'menu_name' => _x('Events')
+					'menu_name' => __('Events')
 					);
 	$args = array(
 				  'labels' => $labels,
