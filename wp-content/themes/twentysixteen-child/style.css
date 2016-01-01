@@ -1453,6 +1453,21 @@ blockquote:after,
 	margin-bottom: 0;
 }
 
+/* Events text widget */
+#text-10 .event-date {
+	color: #686868;
+	display: block;
+	font-family: Montserrat, "Helvetica Neue", sans-serif;
+	font-size: 13px;
+	font-size: 0.8125rem;
+	line-height: 1.615384615;
+	margin-bottom: 0.538461538em;
+}
+
+#text-10 li:last-child .post-date {
+	margin-bottom: 0;
+}
+
 /* RSS widget */
 .widget_rss .rsswidget img {
 	margin-top: -0.375em;
