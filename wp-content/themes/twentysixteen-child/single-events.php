@@ -46,6 +46,9 @@ get_header(); ?>
 						'<span class="post-title">%title</span>',
 				) );
 			}
+			
+			if (get_post_meta()) :
+			endif;
 
 			// End of the loop.
 		endwhile;
