@@ -47,7 +47,9 @@
 					 */
 					do_action( 'twentysixteen_credits' );
 				?>
-				<span class="site-title"><a href="/" rel="home"><?php bloginfo( 'name' ); ?></a></span>
+				<span class="site-title"><a href="/" rel="home">Mayfield Festival of Music and the Arts</a> is the trading name of Music in Mayfield Ltd.
+                <br>Reg. in England No. 03657416. Charity No. 1081068 
+				<br>Registered Office, The Old Palace, Mayfield, East Sussex TN20 6PH</span>
 			</div><!-- .site-info -->
 		</footer><!-- .site-footer -->
 	</div><!-- .site-inner -->
