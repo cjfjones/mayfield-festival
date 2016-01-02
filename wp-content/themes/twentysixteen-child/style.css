@@ -1570,7 +1570,7 @@ blockquote:after,
 }
 
 .site-branding img {
-    width: 200px;
+    width: 80%;
 }
 
 .site-title {
@@ -2757,6 +2757,10 @@ p > video {
 		font-size: 28px;
 		font-size: 1.75rem;
 		line-height: 1.25;
+	}
+	
+	.site-branding img {
+    	width: 100%;
 	}
 
 	.site-description {
