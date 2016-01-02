@@ -93,6 +93,9 @@
 					</a>
 				</div>
 			<?php endif; // End header image check. ?>
+            <?php if ( function_exists('yoast_breadcrumb') ) 
+				{yoast_breadcrumb('<p id="breadcrumbs">','</p>');}
+			?>
 		</header><!-- .site-header -->
 
 		<div id="content" class="site-content">
