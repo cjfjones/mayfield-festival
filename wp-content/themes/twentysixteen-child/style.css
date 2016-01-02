@@ -1569,6 +1569,10 @@ blockquote:after,
 	margin: 0.875em auto 0.875em 0;
 }
 
+.site-branding img {
+    width: 200px;
+}
+
 .site-title {
 	font-family: Montserrat, "Helvetica Neue", sans-serif;
 	font-size: 23px;
@@ -3364,7 +3368,7 @@ p > video {
 	}
 
 	.site-header {
-		padding: 5.25em 4.5455%;
+		padding: 3.25em 4.5455%;
 	}
 
 	.site-branding,
