@@ -299,6 +299,7 @@ h4,
 h5,
 h6 {
 	clear: both;
+	font-family: Montserrat, "Helvetica Neue", sans-serif;
 	font-weight: 700;
 	margin: 0;
 	text-rendering: optimizeLegibility;
