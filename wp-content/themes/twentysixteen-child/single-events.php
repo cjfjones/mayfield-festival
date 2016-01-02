@@ -47,8 +47,6 @@ get_header(); ?>
 				) );
 			}
 			
-			get_the_meta();
-
 			// End of the loop.
 		endwhile;
 		?>
