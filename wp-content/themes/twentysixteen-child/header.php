@@ -103,9 +103,8 @@
 		</header><!-- .site-header -->
         
 		<?php if (is_front_page()) {
-			echo '<img src="<img src="/wp-content/themes/twentysixteen-child/images/mayfield-festival-logo.png" alt="Mayfield Festival">" alt="image banner" />';
-        }
-        ?>
+			echo '<img src="/wp-content/themes/twentysixteen-child/images/home-banner.png" alt="Mayfield Festival Hero" style="display: none;" />';
+        } ?>
         
 
 
