@@ -47,8 +47,7 @@ get_header(); ?>
 				) );
 			}
 			
-			if (get_post_meta()) :
-			endif;
+			get_the_meta();
 
 			// End of the loop.
 		endwhile;
