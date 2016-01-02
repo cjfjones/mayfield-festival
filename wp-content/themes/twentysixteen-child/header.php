@@ -93,9 +93,13 @@
 					</a>
 				</div>
 			<?php endif; // End header image check. ?>
-            <?php if ( function_exists('yoast_breadcrumb') ) 
-				{yoast_breadcrumb('<p id="breadcrumbs">','</p>');}
-			?>
+            <?php if (is_front_page()) {
+				echo '';
+			} else {
+				if ( function_exists('yoast_breadcrumb') ) {
+					yoast_breadcrumb('<p id="breadcrumbs">','');
+				}
+			} ?>
 		</header><!-- .site-header -->
 
 		<div id="content" class="site-content">
