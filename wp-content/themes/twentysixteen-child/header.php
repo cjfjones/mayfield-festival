@@ -103,8 +103,8 @@
 		</header><!-- .site-header -->
         
 		<?php if (is_front_page()) {
-			echo '<img src="/wp-content/themes/twentysixteen-child/images/home-banner.png" alt="Mayfield Festival Hero" style="display: none;" />';
-        } ?>
+			echo '<div class="home-banner"><img src="/wp-content/themes/twentysixteen-child/images/home-banner.png" alt="Mayfield Festival Hero" style="display: none;" /></div>';
+		} ?>
         
 
 
