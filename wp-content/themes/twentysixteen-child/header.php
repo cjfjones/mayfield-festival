@@ -92,6 +92,10 @@
 				</div>
 			<?php endif; // End header image check. ?>
             <?php if (is_front_page()) {
+				echo '<div class="header-image"><img src="/wp-content/uploads/2016/01/header-image-piano_1380x220.png" alt="Mayfield Festival Hero" /></div>';
+			} ?>
+
+            <?php if (is_front_page()) {
 				echo '';
 			} else {
 				if ( function_exists('yoast_breadcrumb') ) {
@@ -99,11 +103,5 @@
 				}
 			} ?>
 		</header><!-- .site-header -->
-        
-		<?php if (is_front_page()) {
-			echo '<div class="header-image" style="display: none;"><img src="/wp-content/uploads/2016/01/header-image-piano_1200x280.png" alt="Mayfield Festival Hero" /></div>';
-		} ?>
-        
-
-
+                
 		<div id="content" class="site-content">
