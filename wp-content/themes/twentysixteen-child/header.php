@@ -101,7 +101,7 @@
 		</header><!-- .site-header -->
         
 		<?php if (is_front_page()) {
-			echo '<div class="header-image"><img src="/wp-content/uploads/2016/01/header-image_1200x280.png" alt="Mayfield Festival Hero" /></div>';
+			echo '<div class="header-image"><img src="/wp-content/uploads/2016/01/header-image-piano_1200x280.png" alt="Mayfield Festival Hero" /></div>';
 		} ?>
         
 
