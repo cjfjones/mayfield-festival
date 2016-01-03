@@ -2688,6 +2688,26 @@ p > video {
 	margin-bottom: 0;
 }
 
+/* Make Twenty Sixteen full width header */
+
+.site-inner {
+ max-width: none;
+}
+
+.site-content,
+.site-footer,
+.site-header-main {
+	max-width: 1320px;
+	margin: 0 auto;
+}
+
+.site-header {
+	background-size: cover !important; 
+	min-height: 200px;
+	margin-bottom: 20px;
+}
+
+
 
 /**
  * 14.0 - Media Queries
@@ -2923,7 +2943,18 @@ p > video {
 	body:not(.search-results) .entry-summary blockquote > ol {
 		margin-left: 1.473684211em;
 	}
+	
+	/* Make Twenty Sixteen full width header */
+
+ 	.site {
+ 		margin: 0;
+ 	}
+		
+ 	body:not(.custom-background-image):before, body:not(.custom-background-image):after {
+ 		height: 0;
+ }
 }
+
 
 
 /**

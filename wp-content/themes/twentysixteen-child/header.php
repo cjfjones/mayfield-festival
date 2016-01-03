@@ -26,7 +26,7 @@
 	<div class="site-inner">
 		<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentysixteen' ); ?></a>
 
-		<header id="masthead" class="site-header" role="banner">
+        <header id="masthead" class="site-header" role="banner" style="background:url(<?php echo get_header_image()?>) center no-repeat;">
 			<div class="site-header-main">
 				<div class="site-branding">
                 	<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><img src="/wp-content/themes/twentysixteen-child/images/mayfield-festival-logo.png" alt="Mayfield Festival"></a>
