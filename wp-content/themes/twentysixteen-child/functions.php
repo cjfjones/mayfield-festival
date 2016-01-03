@@ -40,19 +40,4 @@ function events_init()
 				  );
 	   register_post_type('events',$args);
     }
-	
-add_filter( 'twentysixteen_custom_header_args', 'wpb_new_header_size');
-//add your parameters in - https://codex.wordpress.org/Custom_Headers
-
-	function wpb_new_header_size($array) {
-	$array = array (
-		'default-text-color' => $default_text_color,
-		'width' => 1600,
-		'height' => 200,
-		'flex-height' => true,
-		'wp-head-callback' => 'twentysixteen_header_style',
-		);
-	return $array;
-	}
-
 ?>
