@@ -55,7 +55,7 @@ get_header(); ?>
 				
 			 ?>
 	  
-			<article class="col <?php  if(($post_num % 3) == 0) : echo ' firstOfThree'; endif; ?> <?php  if(($post_num % 2) == 0) : echo ' firstOfTwo'; endif; ?>">
+			<article class="event-two-col">
 				<a class="news-post-thumbnail" href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title(); ?>" rel="bookmark">
 					<h3>
 						<?php 
@@ -70,7 +70,7 @@ get_header(); ?>
 						?>
 					</h3>
 				</a>
-				<div class="thumb-taster"><p><?php echo get_post_meta($post->ID, 'taster', true); ?></p></div>
+				<div class="thumb-taster"><p><?php echo get_post_meta($post->ID, 'Taster', true); ?></p></div>
 			</article>
 
 			
