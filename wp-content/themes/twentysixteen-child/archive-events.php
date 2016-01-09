@@ -33,7 +33,7 @@ get_header(); ?>
 		        <h1 class="page-title"><?php echo $title; ?></h1>
 		</header
 	
-		><div class="entry-content">
+		<div class="entry-content">
         
 			<?php echo $content; ?>
             
