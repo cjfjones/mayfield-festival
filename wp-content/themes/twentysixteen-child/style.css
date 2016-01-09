@@ -2462,6 +2462,7 @@ body.search-no-results .page-header {
  
  .event-two-col img {
     margin-bottom: 15px;
+	width: 100%;
 }
 
 /**
