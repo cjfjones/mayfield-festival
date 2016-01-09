@@ -54,8 +54,7 @@ get_header(); ?>
 				while ( $query->have_posts() ) : $query->the_post();
 				
 			 ?>
-	  
-			<article class="event-two-col">
+			<article class="event-two-col <?php  if(($post_num % 2) == 0) : echo ' right-col'; endif; ?>">
 				<a class="news-post-thumbnail" href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title(); ?>" rel="bookmark">
 					<h3>
 						<?php 
