@@ -32,21 +32,23 @@ get_header(); ?>
         <header class="page-header">
 		        <h1 class="page-title"><?php echo $title; ?></h1>
 		</header
-		<?php echo $content; ?>
-        
-		<?php 
-			$args = array(
-			'post_type' => 'Events',
-			'posts_per_page' => 999,
-			'post_parent' => 0,
-			'orderby' => 'menu_order',
-			'order' => ASC
-			);
-			$query = new WP_Query( $args ); 
-			$post_count = $query->post_count;
-		?>
 	
-		<section class="thumb-content-block clearfix">
+		<div class="entry-content">
+        
+			<?php echo $content; ?>
+            
+            <?php 
+                $args = array(
+                'post_type' => 'Events',
+                'posts_per_page' => 999,
+                'post_parent' => 0,
+                'orderby' => 'menu_order',
+                'order' => ASC
+                );
+                $query = new WP_Query( $args ); 
+                $post_count = $query->post_count;
+            ?>
+
 			<?php if($post_count == 0) : ?>
 			<div>Coming soon.</div>
 			<?php endif; ?>
@@ -78,7 +80,7 @@ get_header(); ?>
 	  		<?php 
 			$post_num++;
 			endwhile; // end of the loop. ?>
-  		</section>
+  		</div>
         <!-- PJA Addition -->
         
 
