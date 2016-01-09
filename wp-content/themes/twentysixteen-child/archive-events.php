@@ -54,12 +54,12 @@ get_header(); ?>
 				while ( $query->have_posts() ) : $query->the_post();
 				
 			 ?>
-			<article class="event-two-col <?php  if(($post_num % 2) == 0) : echo ' right-col'; endif; ?>">
+			<article class="event-two-col<?php if(($post_num % 2) == 0) : echo ' first-col'; endif; ?>">
 				<a class="news-post-thumbnail" href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title(); ?>" rel="bookmark">
 					<h3>
 						<?php 
 							if ( has_post_thumbnail() ) {
-								echo get_the_post_thumbnail( $post->ID, array( 360,240 ));
+								echo get_the_post_thumbnail( $post->ID, array( 372,252 ));
 								//$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
 								//echo '<img alt="'.$alt.'" src="'.$src[0].'"/>'; 
 						

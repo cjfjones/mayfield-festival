@@ -2452,8 +2452,12 @@ body.search-no-results .page-header {
     width: 45%;
     float: left;
     min-height: 330px;
-    margin-right: 5%;
+    margin-left: 5%;
     margin-bottom: 40px;
+}
+
+.event-two-col.right-col {
+	margin-left: 0;
 }
  
 
