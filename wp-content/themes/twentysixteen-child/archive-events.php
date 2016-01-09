@@ -59,7 +59,7 @@ get_header(); ?>
 					<h3>
 						<?php 
 							if ( has_post_thumbnail() ) {
-								echo get_the_post_thumbnail( $post->ID, array( 399,252 ));
+								echo get_the_post_thumbnail( $post->ID, array( 399,266 ));
 								//$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
 								//echo '<img alt="'.$alt.'" src="'.$src[0].'"/>'; 
 						
