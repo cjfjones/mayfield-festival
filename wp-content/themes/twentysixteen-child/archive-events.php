@@ -29,21 +29,24 @@ get_header(); ?>
 		?>
         
 		<!-- PJA Addition -->
-        <h1 class="center"><?php echo $title; ?></h1>
-		<div class="taster">
-			<p class="intro center"><?php echo $content; ?></p>
-		</div>
-        	<?php 
-		$args = array(
-		'post_type' => 'Events',
-		'posts_per_page' => 999,
-		'post_parent' => 0,
-		'orderby' => 'menu_order',
-		'order' => ASC
-		);
-		$query = new WP_Query( $args ); 
-		$post_count = $query->post_count;
-	?>
+        <header class="page-header">
+				<?php
+					the_archive_title( '<h1 class="page-title">', '</h1>' );
+					the_archive_description( '<div class="taxonomy-description">', '</div>' );
+				?>
+		</header
+		<?php echo $content; ?>
+        <?php 
+			$args = array(
+			'post_type' => 'Events',
+			'posts_per_page' => 999,
+			'post_parent' => 0,
+			'orderby' => 'menu_order',
+			'order' => ASC
+			);
+			$query = new WP_Query( $args ); 
+			$post_count = $query->post_count;
+		?>
 	
 		<section class="thumb-content-block clearfix">
 			<?php if($post_count == 0) : ?>
