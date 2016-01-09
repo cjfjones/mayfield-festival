@@ -28,48 +28,6 @@ get_header(); ?>
 			//echo $content; // Output Content
 		?>
         
-		<!-- PJA Addition -->
-        <h1 class="center"><?php echo $title; ?></h1>
-		<h2 class="center"><?php echo get_post_meta($page_id, 'sub_title', true); ?></h2>
-		<div class="taster">
-			<p class="intro center"><?php echo $content; ?></p>
-		</div>		
-		<section class="thumb-content-block clearfix">
-			<?php if($post_count == 0) : ?>
-			<div>Nobody found.</div>
-			<?php endif; ?>
-			<?php 
-			$post_num = 0;
-				while ( $query->have_posts() ) : $query->the_post();
-				
-			 ?>
-	  
-			<article class="col <?php  if(($post_num % 3) == 0) : echo ' firstOfThree'; endif; ?> <?php  if(($post_num % 2) == 0) : echo ' firstOfTwo'; endif; ?>">
-				<a class="news-post-thumbnail" href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title(); ?>" rel="bookmark">
-					<h3>
-						<?php 
-							if ( has_post_thumbnail() ) {
-								echo get_the_post_thumbnail( $post->ID, array( 360,240 ));
-								//$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
-								//echo '<img alt="'.$alt.'" src="'.$src[0].'"/>'; 
-						
-							//the_post_thumbnail( array(360,240) );
-							} 
-							the_title(); 
-						?>
-					</h3>
-				</a>
-				<div class="thumb-taster"><p><?php echo get_post_meta($post->ID, 'taster', true); ?></p></div>
-			</article>
-
-			
-
-	  		<?php 
-			$post_num++;
-			endwhile; // end of the loop. ?>
-  		</section>
-        <!-- PJA Addition -->
-        
 		<?php if ( have_posts() ) : ?>
 
 			<header class="page-header">
