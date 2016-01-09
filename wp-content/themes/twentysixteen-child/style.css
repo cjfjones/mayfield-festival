@@ -1644,6 +1644,29 @@ blockquote:after,
 	margin: 0.875em 0;
 }
 
+.header-image {
+    position: relative;
+    background: #000;
+    margin-bottom: 20px;
+}
+
+.header-image:before, .header-image:after {
+    content: "";
+    position: absolute;
+    background: #000;
+    top: 0;
+    bottom: 0;
+    width: 9999px;
+}
+
+.header-image:before {
+    right: 100%;
+}
+
+.header-image:after {
+    left: 100%;
+}
+
 .header-image a {
 	display: block;
 }
