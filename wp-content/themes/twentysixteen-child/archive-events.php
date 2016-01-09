@@ -30,13 +30,24 @@ get_header(); ?>
         
 		<!-- PJA Addition -->
         <h1 class="center"><?php echo $title; ?></h1>
-		<h2 class="center"><?php echo get_post_meta($page_id, 'sub_title', true); ?></h2>
 		<div class="taster">
 			<p class="intro center"><?php echo $content; ?></p>
-		</div>		
+		</div>
+        	<?php 
+		$args = array(
+		'post_type' => 'Events',
+		'posts_per_page' => 999,
+		'post_parent' => 0,
+		'orderby' => 'menu_order',
+		'order' => ASC
+		);
+		$query = new WP_Query( $args ); 
+		$post_count = $query->post_count;
+	?>
+	
 		<section class="thumb-content-block clearfix">
 			<?php if($post_count == 0) : ?>
-			<div>Nobody found.</div>
+			<div>Coming soon.</div>
 			<?php endif; ?>
 			<?php 
 			$post_num = 0;
@@ -70,42 +81,6 @@ get_header(); ?>
   		</section>
         <!-- PJA Addition -->
         
-		<?php if ( have_posts() ) : ?>
-
-			<header class="page-header">
-				<?php
-					the_archive_title( '<h1 class="page-title">', '</h1>' );
-					the_archive_description( '<div class="taxonomy-description">', '</div>' );
-				?>
-			</header><!-- .page-header -->
-
-			<?php
-			// Start the Loop.
-			while ( have_posts() ) : the_post();
-
-				/*
-				 * Include the Post-Format-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content', get_post_format() );
-
-			// End the loop.
-			endwhile;
-
-			// Previous/next page navigation.
-			the_posts_pagination( array(
-				'prev_text'          => __( 'Previous page', 'twentysixteen' ),
-				'next_text'          => __( 'Next page', 'twentysixteen' ),
-				'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'twentysixteen' ) . ' </span>',
-			) );
-
-		// If no content, include the "No posts found" template.
-		else :
-			get_template_part( 'template-parts/content', 'none' );
-
-		endif;
-		?>
 
 		</main><!-- .site-main -->
 	</div><!-- .content-area -->
