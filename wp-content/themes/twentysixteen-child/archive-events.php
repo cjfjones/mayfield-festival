@@ -37,18 +37,6 @@ get_header(); ?>
         
 			<?php echo $content; ?>
             
-            <?php 
-                $args = array(
-                'post_type' => 'Events',
-                'posts_per_page' => 999,
-                'post_parent' => 0,
-                'orderby' => 'menu_order',
-                'order' => ASC
-                );
-                $query = new WP_Query( $args ); 
-                $post_count = $query->post_count;
-            ?>
-
 			<?php if($post_count == 0) : ?>
 			<div>Coming soon.</div>
 			<?php endif; ?>
