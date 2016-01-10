@@ -30,7 +30,7 @@ get_header(); ?>
         
 		<!-- PJA Addition -->
         <header class="page-header">
-		        <h1 class="page-title"><?php echo $title; ?></h1>
+		        <h1 class="entry-title"><?php echo $title; ?></h1>
 		</header>
         <div class="entry-content">
         
