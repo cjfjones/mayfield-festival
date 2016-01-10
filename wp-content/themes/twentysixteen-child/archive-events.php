@@ -31,9 +31,8 @@ get_header(); ?>
 		<!-- PJA Addition -->
         <header class="page-header">
 		        <h1 class="page-title"><?php echo $title; ?></h1>
-		</header
-	
-		<div class="entry-content">
+		</header>
+        <div class="entry-content">
         
 			<?php echo $content; ?>
             
