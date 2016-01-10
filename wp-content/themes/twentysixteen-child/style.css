@@ -1660,7 +1660,7 @@ blockquote:after,
     position: absolute;
     background: #000;
     top: 0;
-    bottom: 0;
+    bottom: -1px;
     width: 9999px;
 }
 
