@@ -47,7 +47,7 @@
 					 */
 					do_action( 'twentysixteen_credits' );
 				?>
-				<span class="site-info"><a href="/" rel="home">Mayfield Festival of Music and the Arts</a> is the trading name of <a href="/music-in-mayfield/">Music in Mayfield Ltd</a>.</span>
+				<span class="site-info"><a href="/" rel="home">Mayfield Festival of Music and the Arts</a> is the trading name of <a href="/music-in-mayfield/">Music in Mayfield Ltd</a>. Copyright 2016.</span>
 			</div><!-- .site-info -->
 		</footer><!-- .site-footer -->
 	</div><!-- .site-inner -->
