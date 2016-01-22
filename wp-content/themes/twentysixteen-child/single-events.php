@@ -21,10 +21,8 @@ get_header(); ?>
 			$tmp_eventprice = get_post_meta($post->ID, 'Ticket Prices', true);							
 			$tmp_eventbookingurl = get_post_meta($post->ID, 'Booking url', true);							
 			// End custom meta data (PJA)
-?>
-  
-<?php
-			// Include the single post content template.
+
+		// Include the single post content template.
 			//get_template_part( 'template-parts/content', 'single' );
 
 			// If comments are open or we have at least one comment, load up the comment template.
