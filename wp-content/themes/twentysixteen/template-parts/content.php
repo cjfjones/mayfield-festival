@@ -42,7 +42,6 @@
 
 	<footer class="entry-footer">
 		<?php twentysixteen_entry_meta(); ?>
-        yyy
 		<?php
 			edit_post_link(
 				sprintf(
