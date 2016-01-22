@@ -22,15 +22,7 @@ get_header(); ?>
 			$tmp_eventbookingurl = get_post_meta($post->ID, 'Booking url', true);							
 			// End custom meta data (PJA)
 ?>
-   <!-- Add custom meta data (PJA) -->
-        <footer class="entry-footer event-entry">
-			<span class="date"><?php echo $tmp_eventdate ?></span>
-            <span class="location"><?php echo $tmp_eventlocation ?></span>
-			<span class="ticket-price">Tickets - <?php echo $tmp_eventprice ?></span>
-			<span class="booking-url"><a href="<?php echo $tmp_eventbookingurl ?>">Book now</a></span>
-        </footer>
-		<!-- End custom meta data (PJA) -->
-
+  
 <?php
 			// Include the single post content template.
 			//get_template_part( 'template-parts/content', 'single' );
