@@ -47,10 +47,10 @@
 			// End custom meta data (PJA)
            ?>
             
-       <?php echo $tmp_eventdate; ?><br />
-       <?php echo $tmp_eventlocation; ?><br />
-       <?php echo $tmp_eventprice; ?><br />
-       <?php echo $tmp_eventbookingurl; ?><br />
+       <span><?php echo $tmp_eventdate; ?></span>
+       <span><?php echo $tmp_eventlocation; ?></span>
+       <span><?php echo $tmp_eventprice; ?></span>
+       <span><a href="<?php echo $tmp_eventbookingurl; ?>">Book now</a></span>
        
 		<?php twentysixteen_entry_meta(); ?>
 		<?php
