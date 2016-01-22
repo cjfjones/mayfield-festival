@@ -21,7 +21,7 @@ get_header(); ?>
 			$tmp_eventprice = get_post_meta($post->ID, 'Ticket Prices', true);							
 			$tmp_eventbookingurl = get_post_meta($post->ID, 'Booking url', true);							
 			// End custom meta data (PJA)
-
+?>
    <!-- Add custom meta data (PJA) -->
         <footer class="entry-footer event-entry">
 			<?php if (get_post_meta($post->ID, 'Date', true)) : ?>
@@ -39,6 +39,7 @@ get_header(); ?>
         </footer>
 		<!-- End custom meta data (PJA) -->
 
+<?php
 			// Include the single post content template.
 			//get_template_part( 'template-parts/content', 'single' );
 
