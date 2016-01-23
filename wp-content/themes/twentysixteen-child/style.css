@@ -3700,12 +3700,12 @@ p > video {
 		color: #1A1A1A;
 	}
 	
-	.news-post-thumbnail {
+	a.news-post-thumbnail {
     	display: block;
     	box-shadow: none;
 	}
 
-	.news-post-thumbnail:hover {
+	a.news-post-thumbnail:hover {
     	opacity: 0.8;
 	}
 
