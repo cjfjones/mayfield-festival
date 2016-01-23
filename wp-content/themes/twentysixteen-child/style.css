@@ -2511,8 +2511,8 @@ body.search-no-results .page-header {
 	font-weight: bold;
 }
 
-.single .event-detail,
-.single .event-button {
+.single-post .event-detail,
+.single-post .event-button {
 	display: none;
 }
 
