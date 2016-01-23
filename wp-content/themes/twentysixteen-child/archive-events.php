@@ -70,6 +70,14 @@ get_header(); ?>
 							the_title(); 
 						?>
 					</h3>
+					<?php
+                        // Add custom meta data (PJA)
+                        $tmp_eventdate = get_post_meta($post->ID, 'Date', true);							
+                        $tmp_eventlocation = get_post_meta($post->ID, 'Location', true);							
+                        $tmp_eventprice = get_post_meta($post->ID, 'Ticket Prices', true);							
+                        $tmp_eventbookingurl = get_post_meta($post->ID, 'Booking url', true);							
+                        // End custom meta data (PJA)
+                   ?>
                    <span class="event-details event-date"><?php echo $tmp_title; ?></span>
                    <span class="event-details event-date"><?php echo $tmp_eventdate; ?></span>
                    <span><a class="event-button" href="<?php echo $tmp_eventbookingurl; ?>">Book now</a></span>
