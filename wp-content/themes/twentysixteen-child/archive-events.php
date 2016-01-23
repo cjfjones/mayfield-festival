@@ -70,8 +70,10 @@ get_header(); ?>
 							the_title(); 
 						?>
 					</h3>
+                   <span class="event-details event-date"><?php echo $tmp_title; ?></span>
+                   <span class="event-details event-date"><?php echo $tmp_eventdate; ?></span>
+                   <span><a class="event-button" href="<?php echo $tmp_eventbookingurl; ?>">Book now</a></span>
 				</a>
-				<div class="thumb-taster"><p><?php echo get_post_meta($post->ID, 'Taster', true); ?></p></div>
 			</article>
 
 			
