@@ -184,6 +184,7 @@ textarea {
 .event-button a {
     color: #FFF;
 	text-decoration: none;
+	display: block;
 }
 
 .event-button a:hover {

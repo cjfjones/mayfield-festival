@@ -50,7 +50,7 @@
        <span><?php echo $tmp_eventdate; ?></span>
        <span><?php echo $tmp_eventlocation; ?></span>
        <span><?php echo $tmp_eventprice; ?></span>
-       <span class="event-button"><a href="<?php echo $tmp_eventbookingurl; ?>">Book now</a></span>
+       <span><a class="event-button" href="<?php echo $tmp_eventbookingurl; ?>">Book now</a></span>
        
 		<?php twentysixteen_entry_meta(); ?>
 		<?php
