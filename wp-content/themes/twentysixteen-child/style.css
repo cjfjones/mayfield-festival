@@ -157,6 +157,7 @@ samp {
 	font-size: 1em;
 }
 
+.event-button,
 button,
 input,
 optgroup,
@@ -175,6 +176,7 @@ button {
 	overflow: visible;
 }
 
+.event-button,
 button,
 input,
 select,
@@ -286,6 +288,7 @@ optgroup {
  */
 
 body,
+.event-button,
 button,
 input,
 select,
@@ -574,6 +577,7 @@ input {
 	line-height: normal;
 }
 
+.event-button,
 button,
 button[disabled]:hover,
 button[disabled]:focus,
@@ -598,6 +602,7 @@ input[type="submit"][disabled]:focus {
 	text-transform: uppercase;
 }
 
+.event-button:hover,
 button:hover,
 button:focus,
 input[type="button"]:hover,
@@ -3764,6 +3769,7 @@ p > video {
 
 @media print {
 	form,
+	.event-button,
 	button,
 	input,
 	select,
