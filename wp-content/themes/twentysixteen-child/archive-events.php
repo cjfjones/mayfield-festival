@@ -58,26 +58,23 @@ get_header(); ?>
 			 ?>
 			<article class="event-two-col<?php if(($post_num % 2) == 0) : echo ' first-col'; endif; ?>">
 				<a class="news-post-thumbnail" href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title(); ?>" rel="bookmark">
-					<h3>
-						<?php 
-							if ( has_post_thumbnail() ) {
-								echo get_the_post_thumbnail( $post->ID, array( 399,266 ));
-								//$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
-								//echo '<img alt="'.$alt.'" src="'.$src[0].'"/>'; 
-						
-							//the_post_thumbnail( array(360,240) );
-							} 
-						?>
-					</h3>
-					<?php
+					<?php 
+                        if ( has_post_thumbnail() ) {
+                            echo get_the_post_thumbnail( $post->ID, array( 399,266 ));
+                            //$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
+                            //echo '<img alt="'.$alt.'" src="'.$src[0].'"/>'; 
+                    
+                        //the_post_thumbnail( array(360,240) );
+                        } 
+
                         // Add custom meta data (PJA)
                         $tmp_eventtitle = get_post_meta($post->ID, 'Title', true);							
                         $tmp_eventdate = get_post_meta($post->ID, 'Date', true);							
                         $tmp_eventbookingurl = get_post_meta($post->ID, 'Booking url', true);							
                         // End custom meta data (PJA)
                    ?>
-                   <span class="archive-event-details event-title"><?php echo $tmp_eventtitle; ?></span>
-                   <span class="archive-event-details event-date"><?php echo $tmp_eventdate; ?></span>
+                   <h3 class="event-archive-title"><?php echo $tmp_eventtitle; ?></h3>
+                   <span class="event-archive-date"><?php echo $tmp_eventdate; ?></span>
 				</a>
                 <a class="event-button" href="<?php echo $tmp_eventbookingurl; ?>">Book now</a>
 			</article>
