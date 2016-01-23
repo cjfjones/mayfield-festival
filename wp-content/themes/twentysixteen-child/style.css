@@ -2459,14 +2459,31 @@ body.search-no-results .page-header {
  * 11.7 - Events Archive
  */
 
+h3.event-archive-title {
+    margin: 0 0 3px 0;
+    font-size: 16px;
+    color: #A41E22;
+}
+
+h3.event-archive-title:hover {
+    color: #1A1A1A;
+}
+
+.news-post-thumbnail {
+    display: block;
+    box-shadow: none;
+}
+
+.news-post-thumbnail:hover {
+    opacity: 0.8;
+}
+
 .event-two-col {
     width: 47.5%;
     float: left;
-    min-height: 400px;
     margin-left: 5%;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
-
 
 .event-two-col.first-col {
 	margin-left: 0;
@@ -2479,7 +2496,7 @@ body.search-no-results .page-header {
 
 .event-button {
     display: block;
-    margin-top: 20px;
+    margin: 20px 0 0 0;
     text-align: center;
     color: #FFF !important;
     background: #A41E22;
@@ -2509,6 +2526,8 @@ body.search-no-results .page-header {
 .single-post .event-button {
 	display: none;
 }
+
+
 
 /**
  * 12.0 - Media

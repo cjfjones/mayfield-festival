@@ -45,7 +45,7 @@
 			$tmp_eventprice = get_post_meta($post->ID, 'Ticket Prices', true);							
 			$tmp_eventbookingurl = get_post_meta($post->ID, 'Booking url', true);							
 			// End custom meta data (PJA)
-           ?>
+       ?>
             
        <span class="event-details event-date"><?php echo $tmp_eventdate; ?></span>
        <span class="event-details event-location"><?php echo $tmp_eventlocation; ?></span>
