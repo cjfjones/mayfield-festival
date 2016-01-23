@@ -3566,7 +3566,7 @@ p > video {
 		margin-top: 2.4347826087em;
 		margin-bottom: 1.2173913043em;
 	}
-
+	
 	.entry-content h4,
 	.entry-summary h4,
 	.entry-intro h4,
@@ -3689,6 +3689,27 @@ p > video {
 		margin-left: 15%;
 		width: 15%;
 	}
+	
+	h3.event-archive-title {
+		margin: 0 0 3px 0;
+		font-size: 16px;
+		color: #A41E22;
+	}
+	
+	h3.event-archive-title:hover {
+		color: #1A1A1A;
+	}
+	
+	.news-post-thumbnail {
+    	display: block;
+    	box-shadow: none;
+	}
+
+	.news-post-thumbnail:hover {
+    	opacity: 0.8;
+	}
+
+
 }
 
 
