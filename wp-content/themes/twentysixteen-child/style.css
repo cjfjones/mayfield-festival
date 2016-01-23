@@ -168,30 +168,6 @@ textarea {
 	margin: 0;
 }
 
-.event-button {
-    display: block;
-    margin-top: 20px;
-    text-align: center;
-    color: #FFF;
-    background: #A41E22;
-}
-
-.event-button:hover {
-    background: #1A1A1A;
-	color: #A41E22;
-}
-
-.event-button a {
-    color: #FFF;
-	text-decoration: none;
-	display: block;
-}
-
-.event-button a:hover {
-    color: #A41E22;
-	text-decoration: none;
-}
-
 select {
 	text-transform: none;
 }
@@ -2499,6 +2475,40 @@ body.search-no-results .page-header {
  .event-two-col img {
     margin-bottom: 15px;
 	width: 100%;
+}
+
+.event-button {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: #FFF;
+    background: #A41E22;
+}
+
+.event-button:hover {
+    background: #1A1A1A;
+	color: #A41E22;
+}
+
+.event-button a {
+    color: #FFF;
+	text-decoration: none;
+	display: block;
+}
+
+.event-button a:hover {
+    color: #A41E22;
+	text-decoration: none;
+}
+
+.event-details {
+	display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.event-price {
+	font-weight: bold;
 }
 
 /**
