@@ -2481,23 +2481,15 @@ body.search-no-results .page-header {
     display: block;
     margin-top: 20px;
     text-align: center;
-    color: #FFF;
+    color: #FFF !important;
     background: #A41E22;
-}
-
-.event-button:hover {
-    background: #1A1A1A;
-	color: #A41E22;
-}
-
-.event-button a {
-    color: #FFF;
 	text-decoration: none;
 	display: block;
 }
 
-.event-button a:hover {
-    color: #A41E22 !important;
+.event-button:hover {
+    background: #1A1A1A;
+	color: #FFF !important;
 	text-decoration: none;
 }
 
