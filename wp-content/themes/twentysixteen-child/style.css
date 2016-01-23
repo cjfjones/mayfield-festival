@@ -2469,6 +2469,10 @@ h3.event-archive-title:hover {
     color: #1A1A1A;
 }
 
+span.event-archive-date {
+    color: #1a1a1a;
+}
+
 .news-post-thumbnail {
     display: block;
     box-shadow: none;
