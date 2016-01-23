@@ -2497,7 +2497,7 @@ body.search-no-results .page-header {
 }
 
 .event-button a:hover {
-    color: #A41E22;
+    color: #A41E22 !important;
 	text-decoration: none;
 }
 
@@ -2509,6 +2509,11 @@ body.search-no-results .page-header {
 
 .event-price {
 	font-weight: bold;
+}
+
+.single .event-detail,
+.single .event-button {
+	display: none;
 }
 
 /**
