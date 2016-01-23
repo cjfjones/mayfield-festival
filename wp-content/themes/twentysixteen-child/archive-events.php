@@ -71,10 +71,10 @@ get_header(); ?>
                         $tmp_eventtitle = get_post_meta($post->ID, 'Title', true);							
                         $tmp_eventdate = get_post_meta($post->ID, 'Date', true);							
                         // End custom meta data (PJA)
-                   ?>
-                   <h3 class="event-archive-title"><?php echo $tmp_eventtitle; ?></h3>
+                  	?>
+                	<h3 class="event-archive-title"><?php echo $tmp_eventtitle; ?></h3>
+                	<span class="event-archive-date"><?php echo $tmp_eventdate; ?></span>
 				</a>
-                <span class="event-archive-date"><?php echo $tmp_eventdate; ?></span>
                 <a class="event-button" href="<?php esc_url( the_permalink() ); ?>">View event details</a>
 			</article>
 
