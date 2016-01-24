@@ -2464,7 +2464,7 @@ body.search-no-results .page-header {
  * 11.7 - Events Archive
  */
 
-row {
+.row {
     display: flex;
 }
 
