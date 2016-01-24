@@ -50,9 +50,8 @@
        <span class="event-details event-date"><?php echo $tmp_eventdate; ?></span>
        <span class="event-details event-location"><?php echo $tmp_eventlocation; ?></span>
        <span class="event-details event-price"><?php echo $tmp_eventprice; ?></span>
-       <span><a class="event-button" href="<?php echo $tmp_eventbookingurl; ?>">Book now</a></span>
+       <?php if (get_post_meta($post->ID, 'Booking url', true)) : echo "<a class='event-button' href='$tmp_eventbookingurl;'>Book now</a>" ?>
 
-       <?php echo "<a class='event-button' href='$tmp_eventbookingurl;'>Book now</a>" ?>
 
 		<?php twentysixteen_entry_meta(); ?>
 		<?php
