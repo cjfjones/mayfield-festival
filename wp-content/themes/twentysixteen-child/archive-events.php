@@ -83,15 +83,9 @@ get_header(); ?>
           if ($counter % 2 == 0) {
           echo '</section><section class="row">';
         }
-        ?>
+        endwhile; // end of the loop. ?>
   </section><!-- /row -->
 
-                <?php 
-                $post_num++;
-                endwhile; // end of the loop. ?>
-            
-            
-            
   
 
             <!-- PJA Addition -->
