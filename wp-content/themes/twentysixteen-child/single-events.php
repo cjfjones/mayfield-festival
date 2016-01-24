@@ -51,23 +51,6 @@ get_header(); ?>
 		endwhile;
 		?>
         
-        <!-- Add custom meta data (PJA) -->
-        <footer class="entry-footer event-entry">
-			<?php if (get_post_meta($post->ID, 'Date', true)) : ?>
-            <span class="date"><?php echo $tmp_eventdate ?></span>
-            <?php endif; ?>
-            <?php if (get_post_meta($post->ID, 'Location', true)) : ?>
-			<span class="location"><?php echo $tmp_eventlocation ?></span>
-			<?php endif; ?>
-            <?php if (get_post_meta($post->ID, 'Ticket Prices', true)) : ?>
-            <span class="ticket-price">Tickets - <?php echo $tmp_eventprice ?></span>
-			<?php endif; ?>
-            <?php if (get_post_meta($post->ID, 'Booking url', true)) : ?>
-            <span class="booking-url"><a href="<?php echo $tmp_eventbookingurl ?>">Book now</a></span>
-            <?php endif; ?>
-        </footer>
-		<!-- End custom meta data (PJA) -->
-        
 	</main><!-- .site-main -->
 
 	<?php get_sidebar( 'content-bottom' ); ?>
