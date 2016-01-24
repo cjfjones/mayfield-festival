@@ -2497,7 +2497,6 @@ span.event-archive-date {
     margin-left: 5%;
     margin-bottom: 50px;
 	display: flex;
-    flex-direction: column;
 }
 
 .event-two-col.first-col {
@@ -2517,7 +2516,6 @@ span.event-archive-date {
     background: #A41E22;
 	text-decoration: none;
 	display: block;
-	margin-top: auto;
 }
 
 .event-button:hover {
