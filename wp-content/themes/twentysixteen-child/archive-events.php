@@ -81,7 +81,7 @@ get_header(); ?>
     
             <?php $counter++;
           if ($counter % 2 == 0) {
-          echo '</div><div class="row">';
+          echo '</section><section class="row">';
         }
         ?>
   </section><!-- /row -->
