@@ -2514,13 +2514,21 @@ span.event-archive-date {
     color: #FFF !important;
     background: #A41E22;
 	text-decoration: none;
-	display: block;
 }
 
 .event-button:hover {
     background: #1A1A1A;
 	color: #FFF !important;
 	text-decoration: none;
+}
+
+.event-button .postid-2151,
+.event-button .postid-1671,
+.event-button .postid-1581,
+.event-button .postid-1681,
+.event-button .postid-2881,
+.event-button .postid-1931 {
+	display: none;
 }
 
 .event-details {
