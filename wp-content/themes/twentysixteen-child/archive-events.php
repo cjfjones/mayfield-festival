@@ -48,7 +48,7 @@ get_header(); ?>
                 $post_count = $query->post_count;
             ?>
 
-            <section class="row">
+            <section class="row clearfix">
                 <?php if($post_count == 0) : ?>
                 <div>Coming soon.</div>
                 <?php endif; ?>

@@ -752,6 +752,11 @@ a:active {
 	box-shadow: none;
 }
 
+a.news-post-thumbnail {
+	display: block;
+	box-shadow: none;
+}
+
 .entry-content a:hover,
 .entry-content a:focus,
 .entry-summary a:hover,
@@ -2459,6 +2464,10 @@ body.search-no-results .page-header {
  * 11.7 - Events Archive
  */
 
+row {
+    display: flex;
+}
+
 h3.event-archive-title {
     margin: 0 0 3px 0;
     font-size: 16px;
@@ -2487,6 +2496,8 @@ span.event-archive-date {
     float: left;
     margin-left: 5%;
     margin-bottom: 50px;
+	display: flex;
+    flex-direction: column;
 }
 
 .event-two-col.first-col {
@@ -2506,6 +2517,7 @@ span.event-archive-date {
     background: #A41E22;
 	text-decoration: none;
 	display: block;
+	margin-top: auto;
 }
 
 .event-button:hover {
