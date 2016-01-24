@@ -79,23 +79,17 @@ get_header(); ?>
                     <a class="event-button" href="<?php esc_url( the_permalink() ); ?>">View event details</a>
                 </article>
     
-
-                <?php 
-                $post_num++;
-                ?>
+                <?php $post_num++; ?>
             
-            <?php $counter++;
-          if ($counter % 2 == 0) {
-          echo '</section><section class="row">';
-        }
-        endwhile; // end of the loop. ?>
-  </section><!-- /row -->
-            
-  
-
+				<?php $counter++;
+					if ($counter % 2 == 0) {
+				  	echo '</section><section class="row">';
+					}
+					endwhile; // end of the loop.
+				?>
+  			</section>
             <!-- PJA Addition -->
         
-
 		</main><!-- .site-main -->
 	</div><!-- .content-area -->
 
