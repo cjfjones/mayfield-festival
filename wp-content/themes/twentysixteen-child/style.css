@@ -157,6 +157,7 @@ samp {
 	font-size: 1em;
 }
 
+.event-button,
 button,
 input,
 optgroup,
@@ -175,6 +176,7 @@ button {
 	overflow: visible;
 }
 
+.event-button,
 button,
 input,
 select,
@@ -286,6 +288,7 @@ optgroup {
  */
 
 body,
+.event-button,
 button,
 input,
 select,
@@ -574,6 +577,7 @@ input {
 	line-height: normal;
 }
 
+.event-button,
 button,
 button[disabled]:hover,
 button[disabled]:focus,
@@ -598,6 +602,7 @@ input[type="submit"][disabled]:focus {
 	text-transform: uppercase;
 }
 
+.event-button:hover,
 button:hover,
 button:focus,
 input[type="button"]:hover,
@@ -744,6 +749,11 @@ a:active {
 }
 
 .textwidget a {
+	box-shadow: none;
+}
+
+a.news-post-thumbnail {
+	display: block;
 	box-shadow: none;
 }
 
@@ -2454,14 +2464,39 @@ body.search-no-results .page-header {
  * 11.7 - Events Archive
  */
 
+.row {
+    display: flex;
+}
+
+h3.event-archive-title {
+    margin: 0 0 3px 0;
+    font-size: 16px;
+    color: #A41E22;
+}
+
+h3.event-archive-title:hover {
+    color: #1A1A1A;
+}
+
+span.event-archive-date {
+    color: #1a1a1a;
+}
+
+.news-post-thumbnail {
+    display: block;
+    box-shadow: none;
+}
+
+.news-post-thumbnail:hover {
+    opacity: 0.8;
+}
+
 .event-two-col {
     width: 47.5%;
     float: left;
-    min-height: 400px;
     margin-left: 5%;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
-
 
 .event-two-col.first-col {
 	margin-left: 0;
@@ -2470,6 +2505,48 @@ body.search-no-results .page-header {
  .event-two-col img {
     margin-bottom: 15px;
 	width: 100%;
+}
+
+.event-button {
+    display: block;
+    margin: 20px 0 0 0;
+    text-align: center;
+    color: #FFF !important;
+    background: #A41E22;
+	text-decoration: none;
+}
+
+.event-button:hover {
+    background: #1A1A1A;
+	color: #FFF !important;
+	text-decoration: none;
+}
+
+.postid-2151 .event-button,
+.postid-1671 .event-button,
+.postid-1581 .event-button,
+.postid-1681 .event-button,
+.postid-2881 .event-button,
+.postid-1931 .event-button {
+	display: none;
+}
+
+
+.event-details {
+	display: block;
+    margin-bottom: 10px;
+	font-size: 16px;
+    color: #A41E22;
+}
+
+.event-price {
+	font-weight: bold;
+	color: #000;
+}
+
+.single-post .event-detail,
+.single-post .event-button {
+	display: none;
 }
 
 /**
@@ -3509,7 +3586,7 @@ p > video {
 		margin-top: 2.4347826087em;
 		margin-bottom: 1.2173913043em;
 	}
-
+	
 	.entry-content h4,
 	.entry-summary h4,
 	.entry-intro h4,
@@ -3632,6 +3709,27 @@ p > video {
 		margin-left: 15%;
 		width: 15%;
 	}
+	
+	h3.event-archive-title {
+		margin: 0 0 3px 0;
+		font-size: 16px;
+		color: #A41E22;
+	}
+	
+	h3.event-archive-title:hover {
+		color: #1A1A1A;
+	}
+	
+	a.news-post-thumbnail {
+    	display: block;
+    	box-shadow: none;
+	}
+
+	a.news-post-thumbnail:hover {
+    	opacity: 0.8;
+	}
+
+
 }
 
 
@@ -3764,6 +3862,7 @@ p > video {
 
 @media print {
 	form,
+	.event-button,
 	button,
 	input,
 	select,

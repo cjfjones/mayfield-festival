@@ -48,41 +48,48 @@ get_header(); ?>
                 $post_count = $query->post_count;
             ?>
 
-			<?php if($post_count == 0) : ?>
-			<div>Coming soon.</div>
-			<?php endif; ?>
-			<?php 
-			$post_num = 0;
-				while ( $query->have_posts() ) : $query->the_post();
-				
-			 ?>
-			<article class="event-two-col<?php if(($post_num % 2) == 0) : echo ' first-col'; endif; ?>">
-				<a class="news-post-thumbnail" href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title(); ?>" rel="bookmark">
-					<h3>
-						<?php 
-							if ( has_post_thumbnail() ) {
-								echo get_the_post_thumbnail( $post->ID, array( 399,266 ));
-								//$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
-								//echo '<img alt="'.$alt.'" src="'.$src[0].'"/>'; 
-						
-							//the_post_thumbnail( array(360,240) );
-							} 
-							the_title(); 
-						?>
-					</h3>
-				</a>
-				<div class="thumb-taster"><p><?php echo get_post_meta($post->ID, 'Taster', true); ?></p></div>
-			</article>
-
-			
-
-	  		<?php 
-			$post_num++;
-			endwhile; // end of the loop. ?>
-  		</div>
-        <!-- PJA Addition -->
+            <section class="row clearfix">
+                <?php if($post_count == 0) : ?>
+                <div>Coming soon.</div>
+                <?php endif; ?>
+                <?php 
+                $post_num = 0;
+                    while ( $query->have_posts() ) : $query->the_post();
+                    
+                 ?>
+                <article class="event-two-col<?php if(($post_num % 2) == 0) : echo ' first-col'; endif; ?>">
+                    <a class="news-post-thumbnail" href="<?php esc_url( the_permalink() ); ?>" title="<?php the_title(); ?>" rel="bookmark">
+                        <?php 
+                            if ( has_post_thumbnail() ) {
+                                echo get_the_post_thumbnail( $post->ID, array( 399,266 ));
+                                //$alt = get_post_meta($post->ID, '_wp_attachment_image_alt', true);
+                                //echo '<img alt="'.$alt.'" src="'.$src[0].'"/>'; 
+                        
+                            //the_post_thumbnail( array(360,240) );
+                            } 
+    
+                            // Add custom meta data (PJA)
+                            $tmp_eventtitle = get_post_meta($post->ID, 'Title', true);							
+                            $tmp_eventdate = get_post_meta($post->ID, 'Date', true);							
+                            // End custom meta data (PJA)
+                        ?>
+                        <h3 class="event-archive-title"><?php echo $tmp_eventtitle; ?></h3>
+                        <span class="event-archive-date"><?php echo $tmp_eventdate; ?></span>
+                    </a>
+                    <a class="event-button" href="<?php esc_url( the_permalink() ); ?>">View event details</a>
+                </article>
+    
+                <?php $post_num++; ?>
+            
+				<?php $counter++;
+					if ($counter % 2 == 0) {
+				  	echo '</section><section class="row">';
+					}
+					endwhile; // end of the loop.
+				?>
+  			</section>
+            <!-- PJA Addition -->
         
-
 		</main><!-- .site-main -->
 	</div><!-- .content-area -->
 
