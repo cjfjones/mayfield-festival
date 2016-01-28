@@ -23,7 +23,7 @@ get_header(); ?>
 			// End custom meta data (PJA)
 
 			// Include the single post content template.
-			get_template_part( 'template-parts/content', 'single' );
+			get_template_part( 'template-parts/content', 'singleevent' );
 
 			// If comments are open or we have at least one comment, load up the comment template.
 			if ( comments_open() || get_comments_number() ) {
