@@ -58,7 +58,7 @@
            <span><a class="event-button" href="<?php echo $tmp_eventbookingurl; ?>" target="_blank">Book now</a></span>
        <?php }  ?>
         
-		<?php twentysixteen_entry_meta(); ?>
+		<?php //twentysixteen_entry_meta(); ?>
 		<?php
 			edit_post_link(
 				sprintf(
