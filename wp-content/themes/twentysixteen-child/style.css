@@ -2522,14 +2522,14 @@ span.event-archive-date {
 	text-decoration: none;
 }
 
-.postid-2151 .event-button,
+/*.postid-2151 .event-button,
 .postid-1671 .event-button,
 .postid-1581 .event-button,
 .postid-1681 .event-button,
 .postid-2881 .event-button,
 .postid-1931 .event-button {
-	display: none;
-}
+	display: none; 
+}*/
 
 
 .event-details {
