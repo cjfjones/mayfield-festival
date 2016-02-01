@@ -88,8 +88,9 @@ get_header(); ?>
 					endwhile; // end of the loop.
 				?>
   			</section>
-            <!-- PJA Addition -->
-        
+		</div><!-- .entry-content -->
+        <!-- PJA Addition -->
+                    
 		</main><!-- .site-main -->
 	</div><!-- .content-area -->
 
