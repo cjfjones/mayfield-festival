@@ -1,0 +1,38 @@
+name: Deploy to Azure Web App
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: mayfield-festival   # Change to your Azure Web App name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read WordPress version
+        id: wp-version
+        run: echo "version=$(cat wordpress-version.txt | tr -d '[:space:]')" >> $GITHUB_OUTPUT
+
+      - name: Download & extract WordPress core
+        run: |
+          WP_VERSION=${{ steps.wp-version.outputs.version }}
+          echo "Downloading WordPress ${WP_VERSION}..."
+          curl -sO https://wordpress.org/wordpress-${WP_VERSION}.tar.gz
+          tar -xzf wordpress-${WP_VERSION}.tar.gz
+          # Overlay WP core files, preserving our wp-content
+          rsync -a --exclude='wp-content/' wordpress/ ./
+          rm -rf wordpress wordpress-${WP_VERSION}.tar.gz
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: .

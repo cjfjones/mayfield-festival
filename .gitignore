@@ -1,13 +1,85 @@
+# WordPress core files
+/wp-admin/
+/wp-includes/
+/wp-*.php
+/index.php
+/xmlrpc.php
+/license.txt
+/readme.html
+/readme.md
+
+# wp-config.php is tracked here because it reads all credentials from
+# Azure App Service Application Settings (environment variables).
+# No secrets are stored in the file itself.
+# wp-config.php
+
+# WordPress content - track only what you own
+/wp-content/upgrade/
+/wp-content/upgrade-temp-backup/
+/wp-content/uploads/
+/wp-content/cache/
+/wp-content/backup*/
+/wp-content/backups/
+/wp-content/blogs.dir/
+
+# Plugins - ignore all, then whitelist your custom ones
+/wp-content/plugins/
+# Uncomment and adjust to track specific plugins:
+# !/wp-content/plugins/my-custom-plugin/
+
+# Themes - ignore all, then whitelist your custom theme
+/wp-content/themes/
+# Uncomment and adjust to track your custom theme:
+# !/wp-content/themes/mayfield-festival/
+
+# Languages
+/wp-content/languages/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# Logs and temp files
 *.log
-.htaccess
-sitemap.xml
-sitemap.xml.gz
-wp-config.php
-wp-content/advanced-cache.php
-wp-content/backup-db/
-wp-content/backups/
-wp-content/blogs.dir/
-wp-content/cache/
-wp-content/upgrade/
-wp-content/uploads/
-wp-content/wp-cache-config.php
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Composer
+/vendor/
+composer.lock
+
+# Node / build tools
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+/dist/
+/.sass-cache/
+
+# WordPress debug log
+/wp-content/debug.log
+
+# WP-CLI
+wp-cli.local.yml
