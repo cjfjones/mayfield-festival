@@ -1,0 +1,19 @@
+# Third-party plugins installed on this site.
+# These are excluded from source control — install via the WordPress admin
+# or WP-CLI: wp plugin install <slug> --activate
+#
+# Format: slug | version-at-last-audit | notes
+
+akismet                        | 5.x   | Spam protection
+caldera-forms                  | 1.x   | Contact/event forms (deprecated — consider migration)
+cf-anti-spam                   | 1.x   | Caldera Forms anti-spam add-on
+custom-post-type-permalinks    | 2.x   | Custom post type URL slugs
+disable-gutenberg              | 3.x   | Reverts to classic editor
+fluent-smtp                    | 2.x   | SMTP mail sending
+html-editor-syntax-highlighter | 2.x   | Syntax highlighting in classic editor
+kiwi-social-share              | 2.x   | Social sharing buttons
+popup-maker                    | 1.x   | Popups/announcements
+raw-html                       | 1.x   | Raw HTML in posts
+redirection                    | 5.x   | 301 redirects management
+wordpress-seo                  | latest | Yoast SEO
+wp-mail-smtp                   | 4.x   | SMTP mail (review overlap with fluent-smtp)

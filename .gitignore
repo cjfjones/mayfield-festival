@@ -14,6 +14,7 @@
 # wp-config.php
 
 # WordPress content - track only what you own
+/wp-content/index.php
 /wp-content/upgrade/
 /wp-content/upgrade-temp-backup/
 /wp-content/uploads/
@@ -22,15 +23,13 @@
 /wp-content/backups/
 /wp-content/blogs.dir/
 
-# Plugins - ignore all, then whitelist your custom ones
+# Plugins - all third-party, managed via plugins.txt
 /wp-content/plugins/
-# Uncomment and adjust to track specific plugins:
-# !/wp-content/plugins/my-custom-plugin/
 
-# Themes - ignore all, then whitelist your custom theme
-/wp-content/themes/
-# Uncomment and adjust to track your custom theme:
-# !/wp-content/themes/mayfield-festival/
+# Themes - ignore all WP stock/third-party themes, track only custom theme
+# Note: must use /* (glob) not / so that negation below is honoured by git
+/wp-content/themes/*
+!/wp-content/themes/dazzling-mf/
 
 # Languages
 /wp-content/languages/
