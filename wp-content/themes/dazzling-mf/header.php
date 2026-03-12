@@ -95,13 +95,15 @@
             <div class="main-content-area"><?php
 
                 global $post;
-                if( get_post_meta($post->ID, 'site_layout', true) ){
-                        $layout_class = get_post_meta($post->ID, 'site_layout', true);
+                $current_post_id = ($post instanceof WP_Post) ? $post->ID : get_queried_object_id();
+
+                if ($current_post_id && get_post_meta($current_post_id, 'site_layout', true)) {
+                        $layout_class = get_post_meta($current_post_id, 'site_layout', true);
                 }
 				else{
                         $layout_class = of_get_option( 'site_layout' );
-                } 
-                if( is_home() && is_sticky( $post->ID ) ){
+                }
+                if (is_home() && $current_post_id && is_sticky($current_post_id)) {
                         $layout_class = of_get_option( 'site_layout' );
                 }
                 ?>

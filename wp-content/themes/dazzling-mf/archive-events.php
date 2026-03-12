@@ -19,18 +19,21 @@ get_header(); ?>
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
-                <?php 
-        			$page_id = 47; // 47/826 should be replaced with a specific Page's id from your site, which you can find by mousing over the link to edit that Page on the Manage Pages admin page. The id will be embedded in the query string of the URL, e.g. page.php?action=edit&post=123.
-        			$page_data = get_page( $page_id ); // You must pass in a variable to the get_page function. If you pass in a value (e.g. get_page ( 123 ); ), WordPress will generate an error. 
-        			$content = apply_filters('the_content', $page_data->post_content); // Get Content and retain Wordpress filters such as paragraph tags. Origin from: http://wordpress.org/support/topic/get_pagepost-and-no-paragraphs-problem
-        			$title = $page_data->post_title; // Get title
-        			//echo $content; // Output Content
-        		?>
+                <?php
+                    $events_page = get_page_by_path('events');
+                    if (!$events_page) {
+                        $events_page = get_page(47);
+                    }
+
+                    $title = $events_page ? $events_page->post_title : post_type_archive_title('', false);
+                    $raw_content = $events_page ? (string) $events_page->post_content : '';
+                    $content = apply_filters('the_content', $raw_content);
+                ?>
 				<?php if ( function_exists('yoast_breadcrumb') ) {
 					yoast_breadcrumb( '<p id="breadcrumbs">','</p>' );
 				    }
 			     ?>
-				<h1 class="entry-title"><?php echo $title; ?></h1>
+				<h1 class="entry-title"><?php echo esc_html($title); ?></h1>
 			</div>
 		</div>
 	</div>
@@ -39,13 +42,6 @@ get_header(); ?>
     <div class="row">
 		<section id="primary" class="content-area col-sm-12">
 			<main id="main" class="site-main" role="main">
-                <?php 
-        			$page_id = 47; // 47/826 should be replaced with a specific Page's id from your site, which you can find by mousing over the link to edit that Page on the Manage Pages admin page. The id will be embedded in the query string of the URL, e.g. page.php?action=edit&post=123.
-        			$page_data = get_page( $page_id ); // You must pass in a variable to the get_page function. If you pass in a value (e.g. get_page ( 123 ); ), WordPress will generate an error. 
-        			$content = apply_filters('the_content', $page_data->post_content); // Get Content and retain Wordpress filters such as paragraph tags. Origin from: http://wordpress.org/support/topic/get_pagepost-and-no-paragraphs-problem
-        			$title = $page_data->post_title; // Get title
-        			//echo $content; // Output Content
-        		?>
 
                 <div class="entry-content">
                     <?php 

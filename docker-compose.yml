@@ -1,0 +1,55 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mayfield-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: root
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:6.5-php8.2-apache
+    container_name: mayfield-wordpress
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: "1"
+    volumes:
+      - wp_core:/var/www/html
+      - ./wp-content:/var/www/html/wp-content
+      - ./web.config:/var/www/html/web.config:ro
+
+  wpcli:
+    image: wordpress:cli-php8.2
+    container_name: mayfield-wpcli
+    depends_on:
+      - db
+      - wordpress
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    entrypoint: ["wp"]
+    command: ["--info"]
+    volumes:
+      - wp_core:/var/www/html
+      - ./wp-content:/var/www/html/wp-content
+
+volumes:
+  db_data:
+  wp_core:
